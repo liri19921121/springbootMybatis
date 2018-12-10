@@ -1,0 +1,68 @@
+server:
+  port: 8083
+
+# 文件上传的根路径
+upload:
+  root:
+    path: G:/upload
+    img: /test/
+
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  # springboot集成activemq的问题： topic和queue不能同时使用
+  activemq:
+    broker-url: tcp://47.107.225.150:61616
+    user: admin
+    password: admin
+    #是否启用内存模式（也就是不安装MQ，项目启动时同时也启动一个MQ实例）
+    in-memory: true
+    pool:
+      #是否替换默认的connectionFactory,是否创建PooledConnectionFactory，默认false
+      enabled: false
+      #最大连接数
+      max-connections: 5
+      #超时时间
+      expiry-timeout: 0
+      #空闲时间
+      idle-timeout: 30000
+    # 信任所有的包
+    packages:
+      trust-all: true
+
+
+  redis:
+    maxIdle: 300
+    maxTotal: 1000
+    maxWaitMillis: 1000
+    minEvictableIdleTimeMillis: 300000
+    numTestsPerEvictionRun: 1024
+    timeBetweenEvictionRunsMillis: 30000
+    testOnBorrow: true
+    testWhileIdle: true
+    host : 47.107.225.150
+    port: 6379
+    password: riLI@498717728
+    timeout: 600000
+
+
+  datasource:
+    name: test
+    url: jdbc:mysql://47.107.225.150:3306/dbgirl
+    username: root
+    password: riLI@498717728
+    driver-class-name: com.mysql.jdbc.Driver
+
+  thymeleaf:
+    prefix: classpath:/templates/
+
+
+
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.
+
+
+
+

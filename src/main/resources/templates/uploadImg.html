@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>base64图片上传demo</title>
+    <script  th:src="@{/jquery-3.2.1.min.js}" />
+</head>
+<body>
+    <input type="hidden"  id="pics" value="" />
+    <div>
+        <label for="imgfile" class="col-sm-2 control-label">上传头像</label>
+        <div >
+            <a href="javascript:void(0)"><input type="file"  name="imgfile" value="" id="imgfile" placeholder="请选择文件" /></a>
+        </div>
+    </div>
+    <div><img src="" data-toggle="tooltip" id="showImg" style="width: 100px;" /></div>
+    <button type="button"  id="submitBtn" >添加</button>
+
+</body>
+
+<script th:inline="javascript">
+    $(function() {
+        $("#submitBtn").click(function () {
+            var price = $("#pics").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/img/upload",
+                    cache: false,
+                    data: {
+                        base64Img: price,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                            alert(data.msg);
+                    }
+                });
+        });
+    });
+
+    var input = document.getElementById("imgfile");
+    if (typeof (FileReader) === 'undefined') {
+        result.innerHTML = "抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！";
+        input.setAttribute('disabled', 'disabled');
+    } else {
+        input.addEventListener('change', readFile, false);
+    }
+    function readFile() {
+        var file = this.files[0];
+        //判断是否是图片类型
+        if (!/image\/\w+/.test(file.type)) {
+            alert("只能选择图片");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            base64Code=this.result;
+            $("#pics").val(base64Code);
+            $("#showImg").attr("src",this.result);
+        }
+    }
+
+</script>
+
+</html>
