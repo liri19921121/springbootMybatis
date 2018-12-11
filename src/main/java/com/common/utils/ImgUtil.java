@@ -1,4 +1,4 @@
-package com.util;
+package com.common.utils;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.BaseService;
+package com.common.BaseService;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

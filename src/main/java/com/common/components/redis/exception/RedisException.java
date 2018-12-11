@@ -1,5 +1,5 @@
 
-package com.components.redis.exception;
+package com.common.components.redis.exception;
 
 
 import com.common.exception.BaseException;

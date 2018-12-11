@@ -1,5 +1,5 @@
 
-package com.BaseService;
+package com.common.BaseService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
  */
 
 public interface BaseInterfaceService<T> {
-	
+
         /**
          * 根据主键删除
          */
-     	public int deleteByPrimaryKey(Long id) throws Exception;
+		 public int deleteByPrimaryKey(Long id) throws Exception;
 
 	    /**
 	     * 插入一条全新的记录

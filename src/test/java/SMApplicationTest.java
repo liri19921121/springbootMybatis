@@ -1,6 +1,4 @@
-import com.activemq.producer;
-import com.pojo.UserInfo;
-import com.service.impl.UserServiceImpl;
+import com.common.activemq.producer;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,14 +18,5 @@ public class SMApplicationTest {
     @Resource
     private producer producer;
 
-    @Autowired
-    private UserServiceImpl userService;
-
-    @Test
-    public void testJms() {
-            Destination destination = new ActiveMQQueue("springboot.queue.test");
-            UserInfo userInfo = userService.getUserByid(1L);
-            producer.sendMessage(destination,userInfo);
-    }
 
 }

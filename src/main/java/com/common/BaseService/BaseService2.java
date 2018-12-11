@@ -1,14 +1,15 @@
-package com.BaseService;
+package com.common.BaseService;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-
+@Service
 public abstract  class BaseService2<T> {
     private Class mapperClass=null;
     private Class<T> argumentClazz=null;
@@ -88,8 +89,9 @@ public abstract  class BaseService2<T> {
     public Class getMapperType()  {
         if(null==mapperClass){
             Type type = ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            String mapperClassName= type.toString().split(" ")[1].replace("po","mapper")+"Mapper";
+            String mapperClassName= type.toString().split(" ")[1].replace("pojo","mapper")+"Mapper";
             try {
+                System.out.println("mapperClassName:"+mapperClassName);
                 this.mapperClass=Class.forName(mapperClassName);
                 return mapperClass;
             } catch (ClassNotFoundException e) {

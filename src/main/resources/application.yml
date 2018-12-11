@@ -8,8 +8,8 @@ upload:
     img: /test/
 
 spring:
-  mvc:
-    static-path-pattern: /static/**
+  #mvc:
+    #static-path-pattern: /static/**
   # springboot集成activemq的问题： topic和queue不能同时使用
   activemq:
     broker-url: tcp://47.107.225.150:61616

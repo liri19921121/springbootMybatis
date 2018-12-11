@@ -1,7 +1,5 @@
-package com.activemq;
+package com.common.activemq;
 
-import com.pojo.UserInfo;
-import com.service.impl.UserServiceImpl;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +17,6 @@ public class test {
     @Autowired
     private producer producer;
 
-    @Autowired
-    private UserServiceImpl userService;
 
     /**
      * 简单发送demo
@@ -29,8 +25,7 @@ public class test {
     @RequestMapping(value = {"/index"},produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
     public void testJms(Long id) {
         Destination destination = new ActiveMQQueue("springboot.queue.test2");
-        UserInfo userInfo = userService.getUserByid(id);
-            producer.sendMessage(destination,userInfo);
+            producer.sendMessage(destination,"sss");
     }
 
     @Autowired

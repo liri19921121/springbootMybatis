@@ -6,11 +6,12 @@ import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @SpringBootApplication
-@MapperScan("com.dao")
+@MapperScan("com.mapper")
 @ComponentScan(basePackages = {"com.*"})
 public class SMApplication {
 
@@ -32,6 +33,7 @@ public class SMApplication {
 			container.addErrorPages(error401Page, error404Page, error500Page);
 		});
 	}
+
 }
 
 

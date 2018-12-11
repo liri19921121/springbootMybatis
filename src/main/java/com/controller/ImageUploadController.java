@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.service.ImageUploadService;
+import com.service.impl.ImageUploadService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.activemq;
+package com.common.activemq;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
