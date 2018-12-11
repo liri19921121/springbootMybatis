@@ -41,7 +41,9 @@ public class IndexController {
     @PostMapping(value = {"/BaseServiceAddTest"})
     @ResponseBody
     public String Message(HttpServletRequest request){
-        messageService.add();
+        Message message = new Message();
+        message.setMessage("ceshi");
+        messageService.add(message);
         return "success";
     }
 
