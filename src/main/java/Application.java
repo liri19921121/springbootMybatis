@@ -6,21 +6,20 @@ import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @SpringBootApplication
-@MapperScan("com.mapper")
+@MapperScan(basePackages = "com.mapper")
 @ComponentScan(basePackages = {"com.*"})
-public class SMApplication {
+public class Application {
 
 	//https://blog.csdn.net/guobinhui/article/details/79289189
 	/**
 	 *当com定位不到包时，重新打包编译一下
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(SMApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Bean

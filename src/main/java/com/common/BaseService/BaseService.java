@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 @Service
-public abstract  class BaseService2<T> {
+public abstract  class BaseService<T> {
     private Class mapperClass=null;
     private Class<T> argumentClazz=null;
 

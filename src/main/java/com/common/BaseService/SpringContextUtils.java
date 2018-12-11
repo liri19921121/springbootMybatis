@@ -3,12 +3,13 @@ package com.common.BaseService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-
+@Service
 public class SpringContextUtils implements ApplicationContextAware {
     private  static ApplicationContext APPLICATION_CONTEXT=null;
     private  static final  ReadWriteLock readWriteLock=new ReentrantReadWriteLock();
