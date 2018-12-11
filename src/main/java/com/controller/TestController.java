@@ -8,13 +8,17 @@ import com.pojo.UserInfo;
 import com.service.impl.GirlServiceImpl;
 import com.service.impl.MessageServiceImpl;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+* @Description:    基础service测试
+* @Author:         sun
+* @CreateDate:     2018/12/11 15:58
+*/
 @RestController
 @RequestMapping("/test")
 public class TestController {
