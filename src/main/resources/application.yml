@@ -67,6 +67,6 @@ mybatis:
 
 
 mapper:
-  mappers: utils.CommonMapper
+  mappers: CommonMapper.CommonMapper
   not-empty: false
   identity: MYSQL
