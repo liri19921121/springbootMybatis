@@ -48,7 +48,7 @@ spring:
 
   datasource:
     name: test
-    url: jdbc:mysql://47.107.225.150:3306/dbgirl
+    url: jdbc:mysql://47.107.225.150:3306/dbgirl?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: riLI@498717728
     driver-class-name: com.mysql.jdbc.Driver
