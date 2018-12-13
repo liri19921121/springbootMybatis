@@ -22,29 +22,24 @@ public class Test implements PageProcessor {
         page.putField("body",bodyList);*/
 
         List<String> scriptList =    page.getHtml().xpath("*/script").all();
-        page.putField("scriptList",scriptList);
+        /*page.putField("scriptList",scriptList);*/
 
-        if (page.getResultItems().get("scriptList") == null) {
+        if (scriptList.isEmpty()) {
             page.setSkip(true);
         }else {
             for (String s:scriptList){
-                String downurls = subString(s,"var downurls =",";");
-                String httpurl = subString(s,"var httpurl =",";");
+                String downurls = subString(s,"var downurls = \"","#");
                 if (!downurls.equals("not")){
                     System.out.println("===================================="+downurls);
                 }
-                /*if (!httpurl.equals("not")){
-                    System.out.println("===================================="+httpurl);
-                }*/
-
             }
         }
 
 
         // 部分三：从页面发现后续的url地址来抓取
-       /* List<String> list = page.getHtml().xpath("/html/body//a/@href").all();
+        List<String> list = page.getHtml().xpath("*/a/@href").all();
         System.out.println("url-------------->"+list.size());
-        page.addTargetRequests(page.getHtml().xpath("/html/body//a/@href").all());*/
+        page.addTargetRequests(page.getHtml().xpath("*/a/@href").all());
     }
 
     public static String subString(String str, String strStart, String strEnd) {
