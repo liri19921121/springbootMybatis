@@ -1,4 +1,4 @@
-package com.spider;
+package spider;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -30,7 +30,9 @@ public class Test implements PageProcessor {
             for (String s:scriptList){
                 String downurls = subString(s,"var downurls = \"","#");
                 if (!downurls.equals("not")){
-                    System.out.println("===================================="+downurls);
+                    System.out.println("====================================0"+downurls);
+                    System.out.println("====================================1"+downurls.substring(0,downurls.indexOf("https")));
+                    System.out.println("====================================2"+downurls.substring(downurls.indexOf("https"),downurls.length()));
                 }
             }
         }

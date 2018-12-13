@@ -6,5 +6,4 @@ import CommonMapper.CommonMapper;
 
 @Mapper
 public interface MessageMapper extends CommonMapper<Message> {
-    Message demo(Long id);
 }
