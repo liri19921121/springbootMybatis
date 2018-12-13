@@ -1,17 +1,10 @@
 package com.mapper;
 
 import com.pojo.Message;
+import org.apache.ibatis.annotations.Mapper;
+import CommonMapper.CommonMapper;
 
-public interface MessageMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Message record);
-
-    int insertSelective(Message record);
-
-    Message selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(Message record);
-
-    int updateByPrimaryKey(Message record);
+@Mapper
+public interface MessageMapper extends CommonMapper<Message> {
+    Message demo(Long id);
 }

@@ -6,7 +6,7 @@ import com.pojo.Girl;
 import com.pojo.Message;
 import com.pojo.UserInfo;
 import com.service.impl.GirlServiceImpl;
-import com.service.impl.MessageServiceImpl;
+import com.common.BaseTestService.MessageServiceImpl3;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/test")
 public class TestController {
     @Autowired
-    private MessageServiceImpl messageService;
+    private MessageServiceImpl3 messageService;
 
     @Autowired
     private GirlMapper girlMapper;

@@ -1,19 +1,12 @@
 package com.service;
 
-import com.mapper.MessageMapper;
 import com.pojo.Message;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
+public interface MessageService {
 
-@Service
-public class MessageService {
+    public List<Message> getByConditionList()throws Exception;
 
-    @Autowired
-    private MessageMapper messageMapper;
-
-    public Message getMessage(Long id){
-        return this.messageMapper.selectByPrimaryKey(id);
-    }
+    public String addMessage(String message,String name) throws Exception;
 
 }
