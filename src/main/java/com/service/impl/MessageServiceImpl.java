@@ -4,7 +4,7 @@ import com.mapper.MessageMapper;
 import com.pojo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.entity.Example;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,9 +18,9 @@ public class MessageServiceImpl implements com.service.MessageService {
     MessageMapper messageMapper;
 
     public List<Message> getByConditionList() throws Exception {
-        Condition condition = new Condition(Message.class);
-        condition.setOrderByClause("time desc");
-        List<Message> list = messageMapper.selectByExample(condition);
+        Example example = new Example(Message.class);
+        example.orderBy("time").desc();
+        List<Message> list = messageMapper.selectByExample(example);
         return list;
 
     }
