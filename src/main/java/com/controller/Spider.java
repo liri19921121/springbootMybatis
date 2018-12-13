@@ -17,10 +17,10 @@ import java.util.List;
 public class Spider {
 
     @Autowired
-    private SpiderServiceImpl spiderService;
+    private SpiderServiceImpl spiderServiceImpl;
 
     @PostMapping(value = {"/begin"})
     public void begin(HttpServletRequest request) throws Exception{
-        spiderService.begin();
+        spiderServiceImpl.begin();
     }
 }

@@ -1,8 +1,10 @@
 package com.service.impl;
 
+import com.common.BaseService.SpringContextUtils;
 import com.pojo.MovieResources;
 import com.service.MovieResourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -39,6 +41,9 @@ public class SpiderServiceImpl  implements PageProcessor  {
 
                     String url = downurls.substring(downurls.indexOf("https"),downurls.length());
                     String name = downurls.substring(0,downurls.indexOf("https"));
+                    if(movieResourcesService == null){
+                        movieResourcesService = (MovieResourcesService)  getApplicationContext().getBean(MovieResourcesServiceImpl.class);
+                    }
                     movieResourcesService.insert(name,url);
 
                 }
@@ -79,6 +84,10 @@ public class SpiderServiceImpl  implements PageProcessor  {
                 .thread(5)
                 //启动爬虫
                 .run();
+    }
+
+    public ApplicationContext getApplicationContext(){
+        return  SpringContextUtils.getApplicationContext();
     }
 
     @Override
