@@ -30,10 +30,14 @@ public class Test implements PageProcessor {
             WebDriver webDriver = new ChromeDriver();
             webDriver.get(url);
             WebElement webElement = webDriver.findElement(By.xpath("/html"));
-            System.out.println(webElement.getAttribute("outerHTML"));
-            String htm = webElement.getAttribute("outerHTML");
+            String htm = webElement.getAttribute("outerHTML")
+                    .replaceAll(" ","").replaceAll("\\s*", "")
+                    .replaceAll(" +","").replace("text\"value=\"thunder://","18682012295").replace("=\"></td><tdalign=\"right\"><aclass=\"btnbtn-smbtn-primary\"id=\"","13145810058");
+            System.out.println("页面开始----------------------------------------------------------------------------->"
+                    +htm+"<-----------------------------------------------页面结束");
+
             webDriver.close();
-           String thunderUrl = subString(htm,"thunder://","\"> &nbsp; <span id=\"[down:num]");
+            String thunderUrl = subString(htm,"18682012295","13145810058");
 
             System.out.println("-----------==============>"+"thunder://"+thunderUrl);
 
@@ -109,7 +113,7 @@ public class Test implements PageProcessor {
                 //从"https://github.com/code4craft"开始抓
                 .addUrl("https://www.886er.com/vod/17/11675-1.html")
                 //开启5个线程抓取
-                .thread(5)
+                /*.thread(1)*/
                 //启动爬虫
                 .run();
 
