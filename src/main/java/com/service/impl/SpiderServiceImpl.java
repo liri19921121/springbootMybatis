@@ -1,7 +1,6 @@
 package com.service.impl;
 
 import com.common.BaseService.SpringContextUtils;
-import com.pojo.MovieResources;
 import com.service.MovieResourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -28,6 +27,15 @@ public class SpiderServiceImpl  implements PageProcessor  {
 
         List<String> scriptList =    page.getHtml().xpath("*/script").all();
 
+        String column =   page.getHtml().xpath("*/li[@class='active']/a/text()").toString();
+        page.putField("column",column);
+
+        String fullCcolumn = page.getHtml().xpath("*/div[@class='play_nav hidden-xs']/a/text()").all().toString();
+        page.putField("fullCcolumn",fullCcolumn);
+
+        String name =   page.getHtml().xpath("*/div[@class='player_title']/h1/html()").toString();
+        page.putField("titleList",name);
+
         if (scriptList.isEmpty()) {
             page.setSkip(true);
         }else {
@@ -35,16 +43,12 @@ public class SpiderServiceImpl  implements PageProcessor  {
                 String downurls = subString(s,"var downurls = \"","#");
                 if (!downurls.equals("not")){
 
-                    System.out.println("====================================0"+downurls);
-                    System.out.println("====================================1"+downurls.substring(0,downurls.indexOf("https")));
-                    System.out.println("====================================2"+downurls.substring(downurls.indexOf("https"),downurls.length()));
-
                     String url = downurls.substring(downurls.indexOf("https"),downurls.length());
-                    String name = downurls.substring(0,downurls.indexOf("https"));
+                   /* String name = downurls.substring(0,downurls.indexOf("https"));*/
                     if(movieResourcesService == null){
                         movieResourcesService = (MovieResourcesService)  getApplicationContext().getBean(MovieResourcesServiceImpl.class);
                     }
-                    movieResourcesService.insert(name,url);
+                    movieResourcesService.insert(name,url,column,fullCcolumn);
 
                 }
             }
@@ -79,7 +83,7 @@ public class SpiderServiceImpl  implements PageProcessor  {
     public void begin(){
         Spider.create(new SpiderServiceImpl())
                 //从"https://github.com/code4craft"开始抓
-                .addUrl("https://www.885nu.com/vod/29/11689-1.html")
+                .addUrl("https://www.886er.com/vod/17/11675-1.html")
                 //开启5个线程抓取
                 .thread(5)
                 //启动爬虫

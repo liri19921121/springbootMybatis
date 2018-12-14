@@ -16,17 +16,23 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
     private MovieResourcesMapper movieResourcesMapper;
 
     @Override
-    public void insert(String name,String url) {
+    public void insert(String name,String url,String column,String fullColumn) {
         MovieResources movieResources = new MovieResources();
         try {
             name = new String(name.getBytes("UTF-8"),"UTF-8");
         }catch (Exception e){
             System.out.println("name转换异常");
         }
-        System.out.println("name==================="+name+"======================================");
-
-        movieResources.setName(name);
-        movieResources.setMp4Url(url);
-        movieResourcesMapper.insert(movieResources);
+        //查询是否有重复的
+        Example example = new Example(MovieResources.class);
+        example.createCriteria().andEqualTo("mp4Url",url);
+       int count = movieResourcesMapper.selectCountByExample(example);
+       if (count <= 0){
+           movieResources.setName(name);
+           movieResources.setMp4Url(url);
+           movieResources.setPlaceColumn(column);
+           movieResources.setFullColumn(fullColumn);
+           movieResourcesMapper.insert(movieResources);
+       }
     }
 }
