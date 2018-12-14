@@ -13,6 +13,8 @@ import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
+import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
+import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 import java.util.List;
 
@@ -28,12 +30,6 @@ public class SpiderServiceImpl implements PageProcessor {
     @Override
     // process是定制爬虫逻辑的核心接口，在这里编写抽取逻辑
     public void process(Page page) {
-
-        //设置代理
-        HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
-        httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
-                new Proxy("101.101.101.101",8888)
-                ,new Proxy("102.102.102.102",8888)));
 
         List<String> scriptList = page.getHtml().xpath("*/script").all();
 
@@ -54,7 +50,6 @@ public class SpiderServiceImpl implements PageProcessor {
         page.putField("titleList", name);
 
         if (StringUtils.isEmpty(name)) {
-            System.out.println("跳过--------------");
             page.setSkip(true);
         } else {
             for (String s : scriptList) {
@@ -95,11 +90,22 @@ public class SpiderServiceImpl implements PageProcessor {
         return result;
     }
 
-
     public void begin() {
+        //设置代理
+        HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
+        httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
+                new Proxy("324.424.32.24",8888)
+                ,new Proxy("24.102.234.102",8888)
+                ,new Proxy("103.103.243.103",8888)
+                ,new Proxy("104.342.332.104",8888)
+                ,new Proxy("344.105.243.102",8888)
+                ,new Proxy("244.102.42.102",8888)));
+
         Spider.create(new SpiderServiceImpl())
+                //去重
+                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(10000000)))
                 //从"https://github.com/code4craft"开始抓
-                .addUrl("https://www.886er.com")
+                .addUrl("https://www.886er.com/vod/17/11675-1.html")
                 //开启5个线程抓取
                 .thread(5)
                 //启动爬虫
