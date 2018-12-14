@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.proxy.Proxy;
+import us.codecraft.webmagic.proxy.SimpleProxyProvider;
 
 import java.util.List;
 
@@ -25,6 +28,12 @@ public class SpiderServiceImpl implements PageProcessor {
     @Override
     // process是定制爬虫逻辑的核心接口，在这里编写抽取逻辑
     public void process(Page page) {
+
+        //设置代理
+        HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
+        httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
+                new Proxy("101.101.101.101",8888)
+                ,new Proxy("102.102.102.102",8888)));
 
         List<String> scriptList = page.getHtml().xpath("*/script").all();
 
