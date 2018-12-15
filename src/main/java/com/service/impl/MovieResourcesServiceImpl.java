@@ -54,6 +54,9 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                     asianhmResource.setFullColumn(fullColumn);
                     asianhmResource.setType(type);
                     asianhmResourceMapper.insert(asianhmResource);
+                    System.out.println("====新增成功====");
+                }else{
+                    System.out.println("====新增重复====");
                 }
                 break;
             case MovieResourceType.ASIANWM:
@@ -67,6 +70,9 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                     asianwmResource.setFullColumn(fullColumn);
                     asianwmResource.setType(type);
                     asianwmResourceMapper.insert(asianwmResource);
+                    System.out.println("====新增成功====");
+                }else{
+                    System.out.println("====新增重复====");
                 }
                 break;
             case MovieResourceType.CARTOON:
@@ -80,6 +86,9 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                     cartoonResource.setFullColumn(fullColumn);
                     cartoonResource.setType(type);
                     cartoonResourceMapper.insert(cartoonResource);
+                    System.out.println("====新增成功====");
+                }else{
+                    System.out.println("====新增重复====");
                 }
                 break;
             case MovieResourceType.DOMESTIC:
@@ -93,6 +102,9 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                     domesticResource.setFullColumn(fullColumn);
                     domesticResource.setType(type);
                     domesticResourceMapper.insert(domesticResource);
+                    System.out.println("====新增成功====");
+                }else{
+                    System.out.println("====新增重复====");
                 }
                 break;
             case MovieResourceType.EUROPE:
@@ -106,6 +118,9 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                     europeResource.setFullColumn(fullColumn);
                     europeResource.setType(type);
                     europeResourceMapper.insert(europeResource);
+                    System.out.println("====新增成功====");
+                }else{
+                    System.out.println("====新增重复====");
                 }
                 break;
             case MovieResourceType.STAR:
@@ -119,6 +134,9 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                     starResource.setFullColumn(fullColumn);
                     starResource.setType(type);
                     starResourceMapper.insert(starResource);
+                    System.out.println("====新增成功====");
+                }else{
+                    System.out.println("====新增重复====");
                 }
                 break;
              default:
@@ -132,6 +150,9 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                      otherResource.setFullColumn(fullColumn);
                      otherResource.setType(type);
                      otherResourceMapper.insert(otherResource);
+                     System.out.println("====新增成功====");
+                 }else{
+                     System.out.println("====新增重复====");
                  }
                 break;
         }

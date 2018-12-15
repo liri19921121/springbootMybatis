@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ContextConfiguration
 public class ApplicationTests {
 
-	/*@Test
+	/*@Test2
 	public void testSelenium() {
 		System.getProperties().setProperty("webdriver.chrome.driver", "G:/chromedriver_win32/chromedriver.exe");
 		WebDriver webDriver = new ChromeDriver();

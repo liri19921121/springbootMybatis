@@ -61,15 +61,34 @@ public class SpiderServiceImpl implements PageProcessor {
                         movieResourcesService = (MovieResourcesService) getApplicationContext().getBean(MovieResourcesServiceImpl.class);
                     }
                     movieResourcesService.insert(name, url, column, fullCcolumn, type);
-
                 }
             }
         }
 
         // 部分三：从页面发现后续的url地址来抓取
-        List<String> list = page.getHtml().xpath("*/a/@href").all();
-        System.out.println("url-------------->" + list.size());
-        page.addTargetRequests(page.getHtml().xpath("*/a/@href").all());
+       /* List<String> list = page.getHtml().xpath("/a/@href").all();*/
+
+        //首页目录
+       /* List<String> urlList4 =   page.getHtml().xpath("//a[@target='_blank']/@href").all();
+        page.putField("urlList4",urlList4);*/
+
+        //子目录/更多
+        List<String> urlList3 =   page.getHtml().xpath("*//a[@class='text-muted']/@href").all();
+        page.putField("urlList3",urlList3);
+
+        //内容
+        List<String> urlList2 =   page.getHtml().xpath("*//a[@class='video-pic loading']/@href").all();
+        page.putField("urlList2",urlList2);
+
+        //下一页
+        List<String> urlList =   page.getHtml().xpath("*/li/a[@class='next pagegbk']/@href").all();
+        page.putField("urlList",urlList);
+
+        System.out.println("url-------------->" + urlList.size() + urlList2.size()+ urlList3.size());
+        page.addTargetRequests(urlList);
+        page.addTargetRequests(urlList2);
+        page.addTargetRequests(urlList3);
+        /*page.addTargetRequests(urlList4);*/
     }
 
     public static String subString(String str, String strStart, String strEnd) {
@@ -94,20 +113,28 @@ public class SpiderServiceImpl implements PageProcessor {
         //设置代理
         HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
         httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
-                new Proxy("324.424.32.24",8888)
-                ,new Proxy("24.102.234.102",8888)
-                ,new Proxy("103.103.243.103",8888)
-                ,new Proxy("104.342.332.104",8888)
-                ,new Proxy("344.105.243.102",8888)
-                ,new Proxy("244.102.42.102",8888)));
+                new Proxy("324.424.32.24",4242)
+                ,new Proxy("24.102.234.102",4256)
+                ,new Proxy("103.103.243.103",1246)
+                ,new Proxy("104.342.332.104",8643)
+                ,new Proxy("344.105.243.102",7568)
+                ,new Proxy("244.102.42.102",3567)));
 
         Spider.create(new SpiderServiceImpl())
                 //去重
                 .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(10000000)))
                 //从"https://github.com/code4craft"开始抓
-                .addUrl("https://www.886er.com/vod/17/11675-1.html")
+                .addUrl("https://www.886pi.com/html/2/")
+                .addUrl("https://www.552en.com/html/1/")
+                .addUrl("https://www.552en.com/html/8/")
+                .addUrl("https://www.552en.com/html/5/")
+                .addUrl("https://www.552en.com/html/3/")
+                .addUrl("https://www.552en.com/html/4/")
+                .addUrl("https://www.552en.com/html/3/")
+                .addUrl("https://www.552en.com/html/3/")
+                .addUrl("https://www.552en.com/html/3/")
                 //开启5个线程抓取
-                .thread(5)
+                .thread(8)
                 //启动爬虫
                 .run();
     }
@@ -118,8 +145,6 @@ public class SpiderServiceImpl implements PageProcessor {
 
     @Override
     public Site getSite() {
-        Site site = new Site();
-
         return site;
     }
 

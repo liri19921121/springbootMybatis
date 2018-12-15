@@ -4,7 +4,7 @@ server:
 # 文件上传的根路径
 upload:
   root:
-    path: G:/upload
+    path: G:/upload/
     img: /test/
 
 spring:
