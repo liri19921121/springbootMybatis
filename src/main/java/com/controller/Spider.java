@@ -1,9 +1,7 @@
 package com.controller;
 
-import com.service.impl.ImgServiceImpl;
-import com.service.impl.SpiderServiceImpl;
-import com.service.impl.TextServiceImpl;
-import com.service.impl.ThunderServiceImpl;
+import com.pojo.ResourceMovieTitle;
+import com.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +25,9 @@ public class Spider {
     @Autowired
     private TextServiceImpl textServiceImpl;
 
+    @Autowired
+    private ResourceMovieTitleServiceImpl resourceMovieTitleServiceImpl;
+
     @PostMapping(value = {"/moiveBegin"})
     public void moiveBegin(HttpServletRequest request) throws Exception{
         spiderServiceImpl.begin();
@@ -45,6 +46,11 @@ public class Spider {
     @PostMapping(value = {"/textBegin"})
     public void textBegin(HttpServletRequest request) throws Exception{
         textServiceImpl.begin();
+    }
+
+    @PostMapping(value = {"/movieTitleBegin"})
+    public void movieTitleBegin(HttpServletRequest request) throws Exception{
+        resourceMovieTitleServiceImpl.begin();
     }
 
 }

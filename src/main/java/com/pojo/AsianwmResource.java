@@ -9,6 +9,15 @@ public class AsianwmResource {
 
     private String url;
     private String type;
+    private String titleUrl;
+
+    public String getTitleUrl() {
+        return titleUrl;
+    }
+
+    public void setTitleUrl(String titleUrl) {
+        this.titleUrl = titleUrl;
+    }
 
     public String getType() {
         return type;

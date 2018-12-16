@@ -15,6 +15,7 @@ import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
+import us.codecraft.webmagic.selector.Html;
 
 import java.util.List;
 
@@ -48,6 +49,27 @@ public class SpiderServiceImpl implements PageProcessor {
 
         String name = page.getHtml().xpath("*/div[@class='player_title']/h1/html()").toString();
         page.putField("titleList", name);
+
+        //************************************************封面处理********************************
+        //大栏目
+        String bigTitle =   page.getHtml().xpath("*//li[@class='active']/a[@target='_blank']/html()").toString();
+        page.putField("bigTitle",bigTitle);
+
+        String minTitle =   page.getHtml().xpath("*//a[@data='order-addtime']/html()").toString();
+        page.putField("minTitle",minTitle);
+        //封面
+        List<String> titleList =   page.getHtml().xpath("*/li[@class='col-md-2 col-sm-3 col-xs-4 ']/a[@class='video-pic loading']").all();
+        for (String s : titleList){
+            Html html = new Html(s);
+            String url = html.xpath("*/a[@class='video-pic loading']/@data-original").toString();
+            String title = html.xpath("*/a[@class='video-pic loading']/@title").toString();
+            System.out.println(url);
+            System.out.println(title);
+            if (bigTitle != null && minTitle != null){
+
+            }
+        }
+        //************************************************封面处理********************************
 
         if (StringUtils.isEmpty(name)) {
             page.setSkip(true);
