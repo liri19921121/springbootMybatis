@@ -177,7 +177,7 @@ public class ThunderServiceImpl implements PageProcessor {
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")*/
                 //开启5个线程抓取
-                .thread(8)
+                .thread(1)
                 //启动爬虫
                 .run();
     }
