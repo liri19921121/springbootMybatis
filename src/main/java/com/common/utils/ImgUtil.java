@@ -1,5 +1,6 @@
 package com.common.utils;
 
+import com.alibaba.druid.util.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -133,17 +134,22 @@ public class ImgUtil {
 		}
 	}
 
+	/**
+	 * @param dir 子目录
+	 * @param fileUrl 图片链接
+	 * @return
+	 */
 	public static String uploadQianURL(String dir,String fileUrl) {
 		//获取文件名，文件名实际上在URL中可以找到
 		String fileName = fileUrl.substring(fileUrl.lastIndexOf("/")+1,fileUrl.length());
-		System.out.println("fileName===="+fileName);
 		//这里服务器上要将此图保存的路径
-		String savePath = "G:/upload/"+dir+"/";
+		String savePath = "G:/upload/";
+		if (!StringUtils.isEmpty(dir)){
+			savePath = savePath +dir+"/";
+		}
 		createDirFile(savePath);
-		System.out.println("savePath===="+savePath);
 		try {
 			/*将网络资源地址传给,即赋值给url*/
-			System.out.println("fileUrl===="+fileUrl);
 			URL url = new URL(fileUrl);
 			/*此为联系获得网络资源的固定格式用法，以便后面的in变量获得url截取网络资源的输入流*/
 			HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
@@ -151,7 +157,6 @@ public class ImgUtil {
 			connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
 			DataInputStream in = new DataInputStream(connection.getInputStream());
 			/*此处也可用BufferedInputStream与BufferedOutputStream*/
-			System.out.println("connecthttps===="+savePath+fileName);
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(savePath+fileName));
 			/*将参数savePath，即将截取的图片的存储在本地地址赋值给out输出流所指定的地址*/
 			byte[] buffer = new byte[4096];
@@ -166,8 +171,6 @@ public class ImgUtil {
 			//返回内容是保存后的完整的URL
 			/*网络资源截取并存储本地成功返回true*/
 			return savePath+fileName;
-
-
 		} catch (Exception e) {
 			System.out.println(e + fileUrl + savePath);
 			return null;

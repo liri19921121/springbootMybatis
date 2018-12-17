@@ -128,6 +128,8 @@ public class TextServiceImpl implements PageProcessor {
                 .addUrl("https://www.552en.com/html/news/6/")
                 //开启5个线程抓取
                 .thread(3)
+                //设置代理
+                .setDownloader(httpClientDownloader)
                 //启动爬虫
                 .run();
     }

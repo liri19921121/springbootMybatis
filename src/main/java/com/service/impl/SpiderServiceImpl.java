@@ -2,6 +2,7 @@ package com.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.common.BaseService.SpringContextUtils;
+import com.common.utils.SpiderUtils;
 import com.service.MovieResourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -75,7 +76,7 @@ public class SpiderServiceImpl implements PageProcessor {
             page.setSkip(true);
         } else {
             for (String s : scriptList) {
-                String downurls = subString(s, "var downurls = \"", "#");
+                String downurls = SpiderUtils.subString(s, "var downurls = \"", "#");
                 if (!downurls.equals("not")) {
 
                     String url = downurls.substring(downurls.indexOf("https"), downurls.length());
@@ -111,24 +112,6 @@ public class SpiderServiceImpl implements PageProcessor {
         page.addTargetRequests(urlList2);
         page.addTargetRequests(urlList3);
         /*page.addTargetRequests(urlList4);*/
-    }
-
-    public static String subString(String str, String strStart, String strEnd) {
-
-        /* 找出指定的2个字符在 该字符串里面的 位置 */
-        int strStartIndex = str.indexOf(strStart);
-        int strEndIndex = str.indexOf(strEnd);
-
-        /* index 为负数 即表示该字符串中 没有该字符 */
-        if (strStartIndex < 0) {
-            return "not";
-        }
-        if (strEndIndex < 0) {
-            return "not";
-        }
-        /* 开始截取 */
-        String result = str.substring(strStartIndex, strEndIndex).substring(strStart.length());
-        return result;
     }
 
     public void begin() {

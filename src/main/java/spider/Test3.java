@@ -3,7 +3,10 @@ package spider;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.proxy.Proxy;
+import us.codecraft.webmagic.proxy.SimpleProxyProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +48,17 @@ public class Test3 implements PageProcessor {
 
     public static void main(String[] args) {
 
+        HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
+        httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
+                new Proxy("124.231.8.97",9000)
+        ));
+
         Spider.create(new Test3())
                 //从"https://github.com/code4craft"开始抓
                 .addUrl("https://www.886pi.com/html/news/69/")
                 //开启5个线程抓取
                 .thread(5)
+                /*.setDownloader(httpClientDownloader)*/
                 //启动爬虫
                 .run();
     }
