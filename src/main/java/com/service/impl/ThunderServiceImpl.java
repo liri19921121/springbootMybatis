@@ -86,24 +86,36 @@ public class ThunderServiceImpl implements PageProcessor {
                                 .replaceAll(" ", "").replaceAll("\\s*", "")
                                 .replaceAll(" +", "").replace("text\"value=\"thunder://", "18682012295").replace("=\"></td><tdalign=\"right\"><aclass=\"btnbtn-smbtn-primary\"id=\"", "13145810058");
 
-                        String thunderUrl = "thunder://" +SpiderUtils.subString(htm, "18682012295", "13145810058");
+                        String thunderUrl = "thunder://" + SpiderUtils.subString(htm, "18682012295", "13145810058");
 
-                        System.out.println("爬取到-----------==============>" +  thunderUrl);
+                        System.out.println("爬取到-----------==============>" + thunderUrl);
 
-                        //判重
-                        Example example = new Example(ResourceThunder.class);
-                        example.createCriteria().andEqualTo("thunder",thunderUrl);
-                        int count = resourceThunderMapper.selectCountByExample(example);
-                        if (count <= 0){
-                            ResourceThunder resourceThunder = new ResourceThunder();
-                            resourceThunder.setIndexColumn(column);
-                            resourceThunder.setThunder(thunderUrl);
-                            resourceThunder.setTitle(name);
-                            resourceThunder.setType(type);
-                            resourceThunderMapper.insertSelective(resourceThunder);
-                            System.out.println("新增成功");
-                        }else {
-                            System.out.println("新增重复");
+                        if (resourceThunderNotMapper == null) {
+                            resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
+                        }
+
+                        if (thunderUrl.equals("thunder://not")) {
+                            ResourceThunderNot not = new ResourceThunderNot();
+                            not.setIsDown("0");
+                            not.setThunder(page.getUrl().toString());
+                            resourceThunderNotMapper.insertSelective(not);
+                            page.setSkip(true);
+                        } else {
+                            //判重
+                            Example example = new Example(ResourceThunder.class);
+                            example.createCriteria().andEqualTo("thunder", thunderUrl);
+                            int count = resourceThunderMapper.selectCountByExample(example);
+                            if (count <= 0) {
+                                ResourceThunder resourceThunder = new ResourceThunder();
+                                resourceThunder.setIndexColumn(column);
+                                resourceThunder.setThunder(thunderUrl);
+                                resourceThunder.setTitle(name);
+                                resourceThunder.setType(type);
+                                resourceThunderMapper.insertSelective(resourceThunder);
+                                System.out.println("新增成功");
+                            } else {
+                                System.out.println("新增重复");
+                            }
                         }
                     } catch (Exception e) {
                         //当前页面为
@@ -112,7 +124,7 @@ public class ThunderServiceImpl implements PageProcessor {
                             resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
                         }
                         ResourceThunderNot not = new ResourceThunderNot();
-                        not.setIsDown("0");
+                        not.setIsDown("1");
                         not.setThunder(page.getUrl().toString());
                         resourceThunderNotMapper.insertSelective(not);
                         page.setSkip(true);

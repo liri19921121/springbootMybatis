@@ -2,6 +2,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.common.constant.MovieResourceType;
 import com.common.utils.ImgUtil;
 import com.github.pagehelper.PageHelper;
+import com.mapper.DomesticResourceMapper;
 import com.mapper.ResourceMovieTitleMapper;
 import com.pojo.DomesticResource;
 import com.pojo.ResourceMovieTitle;
@@ -28,6 +29,9 @@ public class ApplicationTests {
 	@Autowired
 	private ResourceMovieTitleMapper resourceMovieTitleMapper;
 
+	@Autowired
+	private DomesticResourceMapper domesticResourceMapper;
+
 	@Test
 	public void testSelenium() {
 		System.getProperties().setProperty("webdriver.chrome.driver", "G:/chromedriver_win32/chromedriver.exe");
@@ -51,13 +55,31 @@ public class ApplicationTests {
 
 	@Test
 	public void insertTitle() {
-		Example example = new Example(ResourceMovieTitle.class);
-		example.createCriteria().andEqualTo("indexColumn", MovieResourceType.DOMESTIC);
-		List<ResourceMovieTitle> list = resourceMovieTitleMapper.selectByExample(example);
-		for (ResourceMovieTitle t : list){
+
+			Example example = new Example(ResourceMovieTitle.class);
+			example.createCriteria().andEqualTo("indexColumn", MovieResourceType.DOMESTIC);
+			List<ResourceMovieTitle> list = resourceMovieTitleMapper.selectByExample(example);
+			int i= 0;
+			int j = 0;
+			for (ResourceMovieTitle t : list){
+				try {
+				DomesticResource dr = new DomesticResource();
+				dr.setName(t.getTitle()+"在线播放");
+				DomesticResource d = domesticResourceMapper.selectOne(dr);
+				if (d !=null){
+					d.setTitleUrl(t.getTitleUrl());
+					d.setName(t.getTitle());
+					domesticResourceMapper.updateByPrimaryKeySelective(d);
+				}
+				i=i+1;
+				System.out.println("已经处理"+i+"条");
+				}catch (Exception e){
+					j=j+1;
+					System.out.println("失败---------------------"+j+"条");
+				}
+			}
 
 
-		}
 
 	}
 

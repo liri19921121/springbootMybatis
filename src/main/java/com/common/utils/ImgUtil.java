@@ -143,7 +143,7 @@ public class ImgUtil {
 		//获取文件名，文件名实际上在URL中可以找到
 		String fileName = fileUrl.substring(fileUrl.lastIndexOf("/")+1,fileUrl.length());
 		//这里服务器上要将此图保存的路径
-		String savePath = "G:/upload/";
+		String savePath = "F:/uoload/sh/";
 		if (!StringUtils.isEmpty(dir)){
 			savePath = savePath +dir+"/";
 		}

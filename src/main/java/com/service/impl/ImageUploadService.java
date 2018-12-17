@@ -10,8 +10,14 @@ import com.pojo.ImgTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionSynchronizationUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,36 +89,44 @@ public class ImageUploadService {
     public void imgsDown() {
         Example example = new Example(ImgPath.class);
         example.createCriteria()
-                .andEqualTo("isDown",0);
+                .andEqualTo("isDown", 0);
         List<ImgPath> list = imgPathMapper.selectByExample(example);
+        int i = 0;
         for (ImgPath imgPath : list) {
-            if (imgPath != null) {
-                try {
-                    ImgTitle imgTitle = imgTitleMapper.selectByPrimaryKey(imgPath.getImgId());
-                    if (imgTitle != null) {
-                        //写入本地
-                        String result = ImgUtil.uploadQianURL(imgTitle.getTitle(), imgPath.getImgPath());
-                        if (StringUtils.isEmpty(result)) {
-                            System.out.println("下载失败");
-                        } else {
-                            //更新状态
-                            imgPath.setIsDown(1);
-                            imgPathMapper.updateByPrimaryKeySelective(imgPath);
-                            System.out.println("下载成功");
-                        }
-                    }
-                }catch (Exception e){
-                    //出现异常就跳过此条
-                    continue;
-                }
-
+            i++;
+            try {
+                update(imgPath);
+                System.out.println("第"+i+"张");
+            } catch (Exception e) {
+                //出现异常就跳过此条
+                continue;
             }
         }
         list = imgPathMapper.selectByExample(example);
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             System.out.println("全部下载完成");
-        }else {
+        } else {
             imgsDown();
+        }
+    }
+
+
+    @Transactional(propagation= Propagation.REQUIRES_NEW)
+    public void update(ImgPath imgPath) {
+        if (imgPath != null) {
+            ImgTitle imgTitle = imgTitleMapper.selectByPrimaryKey(imgPath.getImgId());
+            if (imgTitle != null) {
+                //写入本地
+                String result = ImgUtil.uploadQianURL(imgTitle.getTitle(), imgPath.getImgPath());
+                if (StringUtils.isEmpty(result)) {
+                    System.out.println("下载失败");
+                } else {
+                    //更新状态
+                    imgPath.setIsDown(1);
+                    imgPathMapper.updateByPrimaryKeySelective(imgPath);
+                    System.out.println(imgPath.getImgPath() + "下载成功");
+                }
+            }
         }
     }
 
