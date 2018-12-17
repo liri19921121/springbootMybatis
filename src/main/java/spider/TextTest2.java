@@ -36,7 +36,6 @@ public class TextTest2 implements PageProcessor {
 
     }
 
-
     @Override
     public Site getSite() {
         return site;

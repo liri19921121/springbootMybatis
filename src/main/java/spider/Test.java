@@ -1,5 +1,6 @@
 package spider;
 
+import com.common.utils.SpiderUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,7 +39,7 @@ public class Test implements PageProcessor {
                     +htm+"<-----------------------------------------------页面结束");
 
             webDriver.close();
-            String thunderUrl = subString(htm,"18682012295","13145810058");
+            String thunderUrl = SpiderUtils.subString(htm,"18682012295","13145810058");
 
             System.out.println("-----------==============>"+"thunder://"+thunderUrl);
 
@@ -74,24 +75,6 @@ public class Test implements PageProcessor {
        /* List<String> list = page.getHtml().xpath("/a/@href").all();
         System.out.println("url-------------->"+list.size());
         page.addTargetRequests(page.getHtml().xpath("/a/@href").all());*/
-    }
-
-    public static String subString(String str, String strStart, String strEnd) {
-
-        /* 找出指定的2个字符在 该字符串里面的 位置 */
-        int strStartIndex = str.indexOf(strStart);
-        int strEndIndex = str.indexOf(strEnd);
-
-        /* index 为负数 即表示该字符串中 没有该字符 */
-        if (strStartIndex < 0) {
-            return "not";
-        }
-        if (strEndIndex < 0) {
-            return "not";
-        }
-        /* 开始截取 */
-        String result = str.substring(strStartIndex, strEndIndex).substring(strStart.length());
-        return result;
     }
 
     @Override
