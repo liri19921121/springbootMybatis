@@ -1,13 +1,21 @@
 package com.service.impl;
 
 import com.alibaba.druid.util.Base64;
+import com.alibaba.druid.util.StringUtils;
 import com.common.utils.ImgUtil;
+import com.mapper.ImgPathMapper;
+import com.mapper.ImgTitleMapper;
+import com.pojo.ImgPath;
+import com.pojo.ImgTitle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -19,29 +27,33 @@ public class ImageUploadService {
     @Value("${upload.root.img}")
     public String img_path;
 
-    public String uploadImg(String base64Img){
+    @Autowired
+    private ImgTitleMapper imgTitleMapper;
+
+    @Autowired
+    private ImgPathMapper imgPathMapper;
+
+    public String uploadImg(String base64Img) {
         String userPath = null;
         try {
             base64Img = ImgUtil.replaceBase64Before(base64Img);
             byte[] bytes = Base64.base64ToByteArray(base64Img);
             InputStream in = new ByteArrayInputStream(bytes);
             //生成新的名称，防止名字重复
-            String newName = this.random(8)+".png";
-            String filePath = img_path+newName;
-            userPath = ImgUtil.uploadImg(root_fold,filePath, in);
-        }catch (IOException e){
+            String newName = this.random(8) + ".png";
+            String filePath = img_path + newName;
+            userPath = ImgUtil.uploadImg(root_fold, filePath, in);
+        } catch (IOException e) {
             userPath = "上传失败";
         }
-        return root_fold+userPath;
+        return root_fold + userPath;
     }
-
 
 
     /**
      * 返回随机数
      *
-     * @param n
-     *            个数
+     * @param n 个数
      * @return
      */
     public static String random(int n) {
@@ -68,5 +80,40 @@ public class ImageUploadService {
         return new String(chs);
     }
 
+    public void imgsDown() {
+        Example example = new Example(ImgPath.class);
+        example.createCriteria()
+                .andEqualTo("isDown",0);
+        List<ImgPath> list = imgPathMapper.selectByExample(example);
+        for (ImgPath imgPath : list) {
+            if (imgPath != null) {
+                try {
+                    ImgTitle imgTitle = imgTitleMapper.selectByPrimaryKey(imgPath.getImgId());
+                    if (imgTitle != null) {
+                        //写入本地
+                        String result = ImgUtil.uploadQianURL(imgTitle.getTitle(), imgPath.getImgPath());
+                        if (StringUtils.isEmpty(result)) {
+                            System.out.println("下载失败");
+                        } else {
+                            //更新状态
+                            imgPath.setIsDown(1);
+                            imgPathMapper.updateByPrimaryKeySelective(imgPath);
+                            System.out.println("下载成功");
+                        }
+                    }
+                }catch (Exception e){
+                    //出现异常就跳过此条
+                    continue;
+                }
+
+            }
+        }
+        list = imgPathMapper.selectByExample(example);
+        if (list.isEmpty()){
+            System.out.println("全部下载完成");
+        }else {
+            imgsDown();
+        }
+    }
 
 }

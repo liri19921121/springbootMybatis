@@ -1,3 +1,5 @@
+import com.alibaba.druid.util.StringUtils;
+import com.common.utils.ImgUtil;
 import com.github.pagehelper.PageHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +28,16 @@ public class ApplicationTests {
 		webDriver.close();
 	}*/
 	@Test
-	public void testSelenium() {
-		System.out.println("33");
+	public void imgDown() {
+
+		//写入本地
+		String result = ImgUtil.uploadQianURL("cc","https://img.997pp.com/tp/2018/08/2gmtdxallsu.png");
+		if (StringUtils.isEmpty(result)){
+			System.out.println("下载失败");
+		}else{
+			System.out.println("下载成功"+result);
+		}
+
 	}
 
 }

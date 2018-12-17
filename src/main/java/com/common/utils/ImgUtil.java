@@ -53,10 +53,10 @@ public class ImgUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * 创建文件，如果文件夹不存在将被创建
-	 * 
+	 *
 	 * @param destFileName
 	 *            文件路径
 	 */
@@ -121,39 +121,59 @@ public class ImgUtil {
 		outStream.close();
 	}
 
-	//把文件保存在本地
-	public static String saveLocal(String title,String imgUrl){
+	/**
+	 * 文件或文件夹不存在则创建
+	 * @param dir 文件夹
+	 * @param filepath 文件名
+	 */
+	public static void createDirFile(String dir){
+		File file = new File(dir);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+	}
+
+	public static String uploadQianURL(String dir,String fileUrl) {
+		//获取文件名，文件名实际上在URL中可以找到
+		String fileName = fileUrl.substring(fileUrl.lastIndexOf("/")+1,fileUrl.length());
+		System.out.println("fileName===="+fileName);
+		//这里服务器上要将此图保存的路径
+		String savePath = "G:/upload/"+dir+"/";
+		createDirFile(savePath);
+		System.out.println("savePath===="+savePath);
 		try {
-			//获得图片名字
-			String imgName = imgUrl.substring(imgUrl.lastIndexOf("/")+1,imgUrl.length());
-			//new一个URL对象
-			URL url = new URL(imgUrl);
-			//打开链接
-			HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
-			/*HttpURLConnection conn = (HttpURLConnection)url.openConnection();*/
-			//设置请求方式为"GET"
-			conn.setRequestMethod("GET");
-			//超时响应时间为5秒
-			conn.setConnectTimeout(50 * 1000);
-			//通过输入流获取图片数据
-			InputStream inStream = conn.getInputStream();
-			//得到图片的二进制数据，以二进制封装得到数据，具有通用性
-			byte[] data = readInputStream(inStream);
-			//new一个文件对象用来保存图片，默认保存当前工程根目录
-			String path = "G:/upload/"+title;
-			createFile(path);
-			File imageFile = new File(path+imgName);
-			//创建输出流
-			FileOutputStream outStream = new FileOutputStream(imageFile);
-			//写入数据
-			outStream.write(data);
-			//关闭输出流
-			outStream.close();
-			return imgName;
-		}catch (Exception e){
+			/*将网络资源地址传给,即赋值给url*/
+			System.out.println("fileUrl===="+fileUrl);
+			URL url = new URL(fileUrl);
+			/*此为联系获得网络资源的固定格式用法，以便后面的in变量获得url截取网络资源的输入流*/
+			HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
+			//服务器的安全设置不接受Java程序作为客户端访问，解决方案是设置客户端的User Agent
+			connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+			DataInputStream in = new DataInputStream(connection.getInputStream());
+			/*此处也可用BufferedInputStream与BufferedOutputStream*/
+			System.out.println("connecthttps===="+savePath+fileName);
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(savePath+fileName));
+			/*将参数savePath，即将截取的图片的存储在本地地址赋值给out输出流所指定的地址*/
+			byte[] buffer = new byte[4096];
+			int count = 0;
+			/*将输入流以字节的形式读取并写入buffer中*/
+			while ((count = in.read(buffer)) > 0) {
+				out.write(buffer, 0, count);
+			}
+			out.close();/*后面三行为关闭输入输出流以及网络资源的固定格式*/
+			in.close();
+			connection.disconnect();
+			//返回内容是保存后的完整的URL
+			/*网络资源截取并存储本地成功返回true*/
+			return savePath+fileName;
+
+
+		} catch (Exception e) {
+			System.out.println(e + fileUrl + savePath);
 			return null;
 		}
 	}
+
 
 
 	public static byte[] readInputStream(InputStream inStream) throws Exception{
