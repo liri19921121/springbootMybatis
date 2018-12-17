@@ -223,12 +223,17 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
         List<String> urlList3 = page.getHtml().xpath("*//a[@class='text-muted']/@href").all();
         page.putField("urlList3", urlList3);
 
+        //内容
+        List<String> urlList2 =   page.getHtml().xpath("*//a[@class='video-pic loading']/@href").all();
+        page.putField("urlList2",urlList2);
+
         //下一页
         List<String> urlList = page.getHtml().xpath("*/li/a[@class='next pagegbk']/@href").all();
         page.putField("urlList", urlList);
 
         System.out.println("url-------------->" + urlList.size() + urlList3.size());
         page.addTargetRequests(urlList);
+        page.addTargetRequests(urlList2);
         page.addTargetRequests(urlList3);
     }
 
@@ -274,6 +279,7 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")
+                .addUrl("https://www.552en.com")
                 //开启5个线程抓取
                 .thread(8)
                 //启动爬虫

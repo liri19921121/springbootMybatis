@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mapper.ResourceMovieTitleMapper" >
-  <resultMap id="BaseResultMap" type="com.pojo.ResourceMovieTitle" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="title_url" property="titleUrl" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ResourceMovieTitleMapper">
+  <resultMap id="BaseResultMap" type="com.pojo.ResourceMovieTitle">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="title_url" jdbcType="VARCHAR" property="titleUrl" />
+    <result column="index_column" jdbcType="VARCHAR" property="indexColumn" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, title, title_url
+  <sql id="Base_Column_List">
+    id, title, title_url, index_column, type
   </sql>
 
 </mapper>
