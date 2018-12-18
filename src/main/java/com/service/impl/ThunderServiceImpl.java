@@ -95,11 +95,17 @@ public class ThunderServiceImpl implements PageProcessor {
                         }
 
                         if (thunderUrl.equals("thunder://not")) {
-                            ResourceThunderNot not = new ResourceThunderNot();
-                            not.setIsDown("0");
-                            not.setThunder(page.getUrl().toString());
-                            resourceThunderNotMapper.insertSelective(not);
-                            page.setSkip(true);
+                            Example example3 = new Example(ResourceThunderNot.class);
+                            example3.createCriteria().andEqualTo("thunder", page.getUrl().toString());
+                            int count = resourceThunderNotMapper.selectCountByExample(example3);
+                            if (count <= 0) {
+                                ResourceThunderNot not = new ResourceThunderNot();
+                                not.setIsDown("0");
+                                not.setThunder(page.getUrl().toString());
+                                resourceThunderNotMapper.insertSelective(not);
+                                page.setSkip(true);
+                            }
+
                         } else {
                             //判重
                             Example example = new Example(ResourceThunder.class);
@@ -123,11 +129,17 @@ public class ThunderServiceImpl implements PageProcessor {
                         if (resourceThunderNotMapper == null) {
                             resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
                         }
-                        ResourceThunderNot not = new ResourceThunderNot();
-                        not.setIsDown("1");
-                        not.setThunder(page.getUrl().toString());
-                        resourceThunderNotMapper.insertSelective(not);
-                        page.setSkip(true);
+                        Example example5 = new Example(ResourceThunderNot.class);
+                        example5.createCriteria().andEqualTo("thunder", page.getUrl().toString());
+                        int count = resourceThunderNotMapper.selectCountByExample(example5);
+                        if (count <= 0) {
+                            ResourceThunderNot not = new ResourceThunderNot();
+                            not.setIsDown("1");
+                            not.setThunder(page.getUrl().toString());
+                            resourceThunderNotMapper.insertSelective(not);
+                            page.setSkip(true);
+                        }
+
                     }
 
 
@@ -170,14 +182,14 @@ public class ThunderServiceImpl implements PageProcessor {
                 .addUrl("https://www.886pi.com/html/2/")
                 .addUrl("https://www.552en.com/html/1/")
                 .addUrl("https://www.552en.com/html/8/")
-                /*.addUrl("https://www.552en.com/html/5/")
+                .addUrl("https://www.552en.com/html/5/")
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/4/")
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/3/")*/
+                .addUrl("https://www.552en.com/html/3/")
                 //开启5个线程抓取
-                .thread(1)
+                .thread(5)
                 //启动爬虫
                 .run();
     }
