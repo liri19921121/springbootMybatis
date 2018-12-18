@@ -1,6 +1,5 @@
 server:
   port: 80
-
 # 文件上传的根路径
 upload:
   root:
@@ -70,3 +69,5 @@ mapper:
   mappers: CommonMapper.CommonMapper
   not-empty: false
   identity: MYSQL
+logging:
+  config: classpath:logback-spring.xml
