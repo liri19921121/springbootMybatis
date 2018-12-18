@@ -74,37 +74,12 @@ public class ThunderServiceImpl implements PageProcessor {
                     }
                     //保存zz
                     try {
-                       /* WebDriver driver = SpiderUtils.getPhantomJSDriver();
-                        System.out.println("爬取页面：=======" + page.getUrl().toString());
-                        driver.get(page.getUrl().toString());
-
-                        WebElement webElement = driver.findElement(By.xpath("/html"));
-                        String thm = webElement.getAttribute("outerHTML");
-                        System.out.println("outerHTML=======" + thm);
-                        driver.quit();
-
-                        String htm = thm
-                                .replaceAll(" ", "").replaceAll("\\s*", "")
-                                .replaceAll(" +", "").replace("text\"value=\"thunder://", "18682012295").replace("=\"></td><tdalign=\"right\"><aclass=\"btnbtn-smbtn-primary\"id=\"", "13145810058");
-
-                        String thunderUrl = "thunder://" + SpiderUtils.subString(htm, "18682012295", "13145810058");
-
-                        System.out.println("爬取到-----------==============>" + thunderUrl);*/
-
                         String thunderUrl =   page.getHtml().xpath("*//a[@class='btn btn-sm btn-primary']/@href").toString();
-                        page.putField("thunderUrl=======",thunderUrl);
+                        page.putField("thunderUrl============>>>",thunderUrl);
 
                         if (resourceThunderNotMapper == null) {
                             resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
                         }
-
-                        /*if (thunderUrl.equals("thunder://not")) {
-                            ResourceThunderNot not = new ResourceThunderNot();
-                            not.setIsDown("0");
-                            not.setThunder(page.getUrl().toString());
-                            resourceThunderNotMapper.insertSelective(not);
-                            page.setSkip(true);
-                        } else {*/
                             //判重
                             Example example = new Example(ResourceThunder.class);
                             example.createCriteria().andEqualTo("thunder", thunderUrl);
@@ -120,7 +95,6 @@ public class ThunderServiceImpl implements PageProcessor {
                             } else {
                                 System.out.println("新增重复");
                             }
-                        /*}*/
                     } catch (Exception e) {
                         //当前页面为
                         //保存到爬取失败列表
@@ -133,8 +107,6 @@ public class ThunderServiceImpl implements PageProcessor {
                         resourceThunderNotMapper.insertSelective(not);
                         page.setSkip(true);
                     }
-
-
                 }
             }
         }
@@ -174,24 +146,6 @@ public class ThunderServiceImpl implements PageProcessor {
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")*/
                 .runAsync();
-
-        /*Spider.create(new ThunderServiceImpl())
-                //去重
-                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(10000000)))
-                //从"https://github.com/code4craft"开始抓
-                .addUrl("https://www.886pi.com/html/2/")
-                .addUrl("https://www.552en.com/html/1/")
-                .addUrl("https://www.552en.com/html/8/")
-                *//*.addUrl("https://www.552en.com/html/5/")
-                .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/4/")
-                .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/3/")*//*
-                //开启5个线程抓取
-                .thread(1)
-                //启动爬虫
-                .run();*/
     }
 
     public ApplicationContext getApplicationContext() {
@@ -200,6 +154,9 @@ public class ThunderServiceImpl implements PageProcessor {
 
     @Override
     public Site getSite() {
+        /*if (null == site) {
+            site = Site.me().setDomain("886pi.com").setSleepTime(0);
+        }*/
         return site;
     }
 
