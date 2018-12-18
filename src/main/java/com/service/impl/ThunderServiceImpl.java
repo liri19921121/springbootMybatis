@@ -25,6 +25,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
+import us.codecraft.webmagic.downloader.selenium.SeleniumDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
@@ -48,9 +49,6 @@ public class ThunderServiceImpl implements PageProcessor {
 
     @Override
     public void process(Page page) {
-
-        List<String> scriptList = page.getHtml().xpath("*/script").all();
-
         String column = page.getHtml().xpath("*/li[@class='active']/a/text()").toString();
 
         List<String> fullList = page.getHtml().xpath("*/div[@class='play_nav hidden-xs']/a/text()").all();
@@ -65,85 +63,43 @@ public class ThunderServiceImpl implements PageProcessor {
         if (StringUtils.isEmpty(name)) {
             page.setSkip(true);
         } else {
-            for (String s : scriptList) {
-                String downurls = SpiderUtils.subString(s, "var downurls = \"", "#");
-                if (!downurls.equals("not")) {
-                    if (resourceThunderMapper == null) {
-                        resourceThunderMapper = (ResourceThunderMapper) getApplicationContext().getBean(ResourceThunderMapper.class);
-                    }
-                    //保存zz
-                    try {
-                        WebDriver driver = SpiderUtils.getPhantomJSDriver();
-                        System.out.println("爬取页面：=======" + page.getUrl().toString());
-                        driver.get(page.getUrl().toString());
+            if (resourceThunderMapper == null) {
+                resourceThunderMapper = (ResourceThunderMapper) getApplicationContext().getBean(ResourceThunderMapper.class);
+            }
+            //保存zz
+            try {
+                String thunderUrl =   page.getHtml().xpath("*//a[@class='btn btn-sm btn-primary']/@href").toString();
+                page.putField("thunderUrl============>>>",thunderUrl);
 
-                        WebElement webElement = driver.findElement(By.xpath("/html"));
-                        String thm = webElement.getAttribute("outerHTML");
-                        System.out.println("outerHTML=======" + thm);
-                        driver.quit();
-
-                        String htm = thm
-                                .replaceAll(" ", "").replaceAll("\\s*", "")
-                                .replaceAll(" +", "").replace("text\"value=\"thunder://", "18682012295").replace("=\"></td><tdalign=\"right\"><aclass=\"btnbtn-smbtn-primary\"id=\"", "13145810058");
-
-                        String thunderUrl = "thunder://" + SpiderUtils.subString(htm, "18682012295", "13145810058");
-
-                        System.out.println("爬取到-----------==============>" + thunderUrl);
-
-                        if (resourceThunderNotMapper == null) {
-                            resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
-                        }
-
-                        if (thunderUrl.equals("thunder://not")) {
-                            Example example3 = new Example(ResourceThunderNot.class);
-                            example3.createCriteria().andEqualTo("thunder", page.getUrl().toString());
-                            int count = resourceThunderNotMapper.selectCountByExample(example3);
-                            if (count <= 0) {
-                                ResourceThunderNot not = new ResourceThunderNot();
-                                not.setIsDown("0");
-                                not.setThunder(page.getUrl().toString());
-                                resourceThunderNotMapper.insertSelective(not);
-                                page.setSkip(true);
-                            }
-
-                        } else {
-                            //判重
-                            Example example = new Example(ResourceThunder.class);
-                            example.createCriteria().andEqualTo("thunder", thunderUrl);
-                            int count = resourceThunderMapper.selectCountByExample(example);
-                            if (count <= 0) {
-                                ResourceThunder resourceThunder = new ResourceThunder();
-                                resourceThunder.setIndexColumn(column);
-                                resourceThunder.setThunder(thunderUrl);
-                                resourceThunder.setTitle(name);
-                                resourceThunder.setType(type);
-                                resourceThunderMapper.insertSelective(resourceThunder);
-                                System.out.println("新增成功");
-                            } else {
-                                System.out.println("新增重复");
-                            }
-                        }
-                    } catch (Exception e) {
-                        //当前页面为
-                        //保存到爬取失败列表
-                        if (resourceThunderNotMapper == null) {
-                            resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
-                        }
-                        Example example5 = new Example(ResourceThunderNot.class);
-                        example5.createCriteria().andEqualTo("thunder", page.getUrl().toString());
-                        int count = resourceThunderNotMapper.selectCountByExample(example5);
-                        if (count <= 0) {
-                            ResourceThunderNot not = new ResourceThunderNot();
-                            not.setIsDown("1");
-                            not.setThunder(page.getUrl().toString());
-                            resourceThunderNotMapper.insertSelective(not);
-                            page.setSkip(true);
-                        }
-
-                    }
-
-
+                if (resourceThunderNotMapper == null) {
+                    resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
                 }
+                //判重
+                Example example = new Example(ResourceThunder.class);
+                example.createCriteria().andEqualTo("thunder", thunderUrl);
+                int count = resourceThunderMapper.selectCountByExample(example);
+                if (count <= 0) {
+                    ResourceThunder resourceThunder = new ResourceThunder();
+                    resourceThunder.setIndexColumn(column);
+                    resourceThunder.setThunder(thunderUrl);
+                    resourceThunder.setTitle(name);
+                    resourceThunder.setType(type);
+                    resourceThunderMapper.insertSelective(resourceThunder);
+                    System.out.println("新增成功");
+                } else {
+                    System.out.println("新增重复");
+                }
+            } catch (Exception e) {
+                //当前页面为
+                //保存到爬取失败列表
+                if (resourceThunderNotMapper == null) {
+                    resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
+                }
+                ResourceThunderNot not = new ResourceThunderNot();
+                not.setIsDown("1");
+                not.setThunder(page.getUrl().toString());
+                resourceThunderNotMapper.insertSelective(not);
+                page.setSkip(true);
             }
         }
         //子目录/更多
@@ -168,30 +124,20 @@ public class ThunderServiceImpl implements PageProcessor {
         //设置代理
         HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
         httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
-                new Proxy("324.424.32.24", 4242)
-                , new Proxy("24.102.234.102", 4256)
-                , new Proxy("103.103.243.103", 1246)
-                , new Proxy("104.342.332.104", 8643)
-                , new Proxy("344.105.243.102", 7568)
-                , new Proxy("244.102.42.102", 3567)));
+                new Proxy("324.424.32.24", 4242)));
 
-        Spider.create(new ThunderServiceImpl())
-                //去重
-                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(10000000)))
-                //从"https://github.com/code4craft"开始抓
+        Spider.create(new ThunderServiceImpl()).thread(5)
+                .setDownloader(new SeleniumDownloader("F:/phantomjs/phantomjs-2.1.1-windows/bin/phantomjs.exe"))
                 .addUrl("https://www.886pi.com/html/2/")
                 .addUrl("https://www.552en.com/html/1/")
                 .addUrl("https://www.552en.com/html/8/")
-                .addUrl("https://www.552en.com/html/5/")
+                /*.addUrl("https://www.552en.com/html/5/")
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/4/")
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/3/")
-                //开启5个线程抓取
-                .thread(5)
-                //启动爬虫
-                .run();
+                .addUrl("https://www.552en.com/html/3/")*/
+                .runAsync();
     }
 
     public ApplicationContext getApplicationContext() {
@@ -200,6 +146,9 @@ public class ThunderServiceImpl implements PageProcessor {
 
     @Override
     public Site getSite() {
+        /*if (null == site) {
+            site = Site.me().setDomain("886pi.com").setSleepTime(0);
+        }*/
         return site;
     }
 
