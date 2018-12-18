@@ -25,6 +25,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
+import us.codecraft.webmagic.downloader.selenium.SeleniumDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
@@ -73,7 +74,7 @@ public class ThunderServiceImpl implements PageProcessor {
                     }
                     //保存zz
                     try {
-                        WebDriver driver = SpiderUtils.getPhantomJSDriver();
+                       /* WebDriver driver = SpiderUtils.getPhantomJSDriver();
                         System.out.println("爬取页面：=======" + page.getUrl().toString());
                         driver.get(page.getUrl().toString());
 
@@ -88,19 +89,22 @@ public class ThunderServiceImpl implements PageProcessor {
 
                         String thunderUrl = "thunder://" + SpiderUtils.subString(htm, "18682012295", "13145810058");
 
-                        System.out.println("爬取到-----------==============>" + thunderUrl);
+                        System.out.println("爬取到-----------==============>" + thunderUrl);*/
+
+                        String thunderUrl =   page.getHtml().xpath("*//a[@class='btn btn-sm btn-primary']/@href").toString();
+                        page.putField("thunderUrl=======",thunderUrl);
 
                         if (resourceThunderNotMapper == null) {
                             resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
                         }
 
-                        if (thunderUrl.equals("thunder://not")) {
+                        /*if (thunderUrl.equals("thunder://not")) {
                             ResourceThunderNot not = new ResourceThunderNot();
                             not.setIsDown("0");
                             not.setThunder(page.getUrl().toString());
                             resourceThunderNotMapper.insertSelective(not);
                             page.setSkip(true);
-                        } else {
+                        } else {*/
                             //判重
                             Example example = new Example(ResourceThunder.class);
                             example.createCriteria().andEqualTo("thunder", thunderUrl);
@@ -116,7 +120,7 @@ public class ThunderServiceImpl implements PageProcessor {
                             } else {
                                 System.out.println("新增重复");
                             }
-                        }
+                        /*}*/
                     } catch (Exception e) {
                         //当前页面为
                         //保存到爬取失败列表
@@ -156,17 +160,10 @@ public class ThunderServiceImpl implements PageProcessor {
         //设置代理
         HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
         httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
-                new Proxy("324.424.32.24", 4242)
-                , new Proxy("24.102.234.102", 4256)
-                , new Proxy("103.103.243.103", 1246)
-                , new Proxy("104.342.332.104", 8643)
-                , new Proxy("344.105.243.102", 7568)
-                , new Proxy("244.102.42.102", 3567)));
+                new Proxy("324.424.32.24", 4242)));
 
-        Spider.create(new ThunderServiceImpl())
-                //去重
-                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(10000000)))
-                //从"https://github.com/code4craft"开始抓
+        Spider.create(new ThunderServiceImpl()).thread(5)
+                .setDownloader(new SeleniumDownloader("F:/phantomjs/phantomjs-2.1.1-windows/bin/phantomjs.exe"))
                 .addUrl("https://www.886pi.com/html/2/")
                 .addUrl("https://www.552en.com/html/1/")
                 .addUrl("https://www.552en.com/html/8/")
@@ -176,10 +173,25 @@ public class ThunderServiceImpl implements PageProcessor {
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")
                 .addUrl("https://www.552en.com/html/3/")*/
+                .runAsync();
+
+        /*Spider.create(new ThunderServiceImpl())
+                //去重
+                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(10000000)))
+                //从"https://github.com/code4craft"开始抓
+                .addUrl("https://www.886pi.com/html/2/")
+                .addUrl("https://www.552en.com/html/1/")
+                .addUrl("https://www.552en.com/html/8/")
+                *//*.addUrl("https://www.552en.com/html/5/")
+                .addUrl("https://www.552en.com/html/3/")
+                .addUrl("https://www.552en.com/html/4/")
+                .addUrl("https://www.552en.com/html/3/")
+                .addUrl("https://www.552en.com/html/3/")
+                .addUrl("https://www.552en.com/html/3/")*//*
                 //开启5个线程抓取
                 .thread(1)
                 //启动爬虫
-                .run();
+                .run();*/
     }
 
     public ApplicationContext getApplicationContext() {
