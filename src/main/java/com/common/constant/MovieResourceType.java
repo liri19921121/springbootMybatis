@@ -7,4 +7,5 @@ public class MovieResourceType {
     public final static String DOMESTIC = "国产精品";
     public final static String EUROPE = "欧美系列";
     public final static String STAR = "著名女优";
+    public final static String ZXBF = "在线播放";
 }

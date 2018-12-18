@@ -1,6 +1,10 @@
 package com.service.impl;
 
+import com.common.constant.MovieResourceType;
+import com.mapper.DomesticResourceMapper;
 import com.mapper.TestForMapper;
+import com.pojo.DomesticResource;
+import com.pojo.ResourceMovieTitle;
 import com.pojo.TestFor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +22,4 @@ public class TestService {
         t.setIsDown("2");
         testForMapper.updateByPrimaryKeySelective(t);
     }
-
 }

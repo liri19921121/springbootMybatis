@@ -138,8 +138,13 @@ public class ThunderServiceImpl implements PageProcessor {
         httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(
                 new Proxy("324.424.32.24", 4242)));
 
+        //phantomjs
+        SeleniumDownloader seleniumDownloader = new SeleniumDownloader("F:/phantomjs/phantomjs-2.1.1-windows/bin/phantomjs.exe");
+        seleniumDownloader.setThread(10);
+        seleniumDownloader.setSleepTime(2000);
+
         Spider.create(new ThunderServiceImpl()).thread(5)
-                .setDownloader(new SeleniumDownloader("F:/phantomjs/phantomjs-2.1.1-windows/bin/phantomjs.exe"))
+                .setDownloader(seleniumDownloader)
                 .addUrl("https://www.886pi.com/html/2/")
                 .addUrl("https://www.552en.com/html/1/")
                 .addUrl("https://www.552en.com/html/8/")

@@ -6,6 +6,8 @@ import com.mapper.DomesticResourceMapper;
 import com.mapper.ResourceMovieTitleMapper;
 import com.pojo.DomesticResource;
 import com.pojo.ResourceMovieTitle;
+import com.service.impl.TestService;
+import com.service.impl.TitleUpdateService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -54,34 +56,20 @@ public class ApplicationTests {
 		}
 	}
 
+	@Autowired
+	private TitleUpdateService titleUpdateService;
+
 	@Test
 	@Transactional
 	public void insertTitle() {
 			Example example = new Example(ResourceMovieTitle.class);
-			example.createCriteria().andEqualTo("indexColumn", MovieResourceType.DOMESTIC);
+			example.createCriteria().andEqualTo("indexColumn", MovieResourceType.STAR);
 			List<ResourceMovieTitle> list = resourceMovieTitleMapper.selectByExample(example);
 			int i= 0;
 			int j = 0;
 			for (ResourceMovieTitle t : list){
-				try {
-				DomesticResource dr = new DomesticResource();
-				dr.setName(t.getTitle()+"在线播放");
-				DomesticResource d = domesticResourceMapper.selectOne(dr);
-				if (d !=null){
-					d.setTitleUrl(t.getTitleUrl());
-					d.setName(t.getTitle());
-					domesticResourceMapper.updateByPrimaryKeySelective(d);
-				}
-				i=i+1;
-				System.out.println("已经处理"+i+"条");
-				}catch (Exception e){
-					j=j+1;
-					System.out.println("失败---------------------"+j+"条");
-				}
+				titleUpdateService.updateResourceMovieTitle(i,j,t,MovieResourceType.STAR);
 			}
-
-
-
 	}
 
 }

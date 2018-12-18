@@ -1,12 +1,14 @@
 package com.pojo;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 public class CartoonResource {
+    @Id
+    @GeneratedValue(generator = "JDBC")
     private Long id;
-
     private String name;
-
     private String fullColumn;
-
     private String url;
     private String type;
     private String titleUrl;

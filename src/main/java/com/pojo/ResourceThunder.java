@@ -1,6 +1,11 @@
 package com.pojo;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 public class ResourceThunder {
+    @Id
+    @GeneratedValue(generator = "JDBC")
     private Long id;
 
     private String thunder;

@@ -1,6 +1,11 @@
 package com.pojo;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 public class Girl {
+    @Id
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     private Integer age;
