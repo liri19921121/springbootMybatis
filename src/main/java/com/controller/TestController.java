@@ -6,6 +6,7 @@ import com.pojo.Girl;
 import com.pojo.Message;
 import com.pojo.UserInfo;
 import com.service.impl.GirlServiceImpl;
+import com.service.impl.TestForService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class TestController {
 
     @Autowired
     private GirlServiceImpl girlService;
+
+    @Autowired
+    private TestForService testForService;
 
 
     @ApiOperation("baseService反射测试")
@@ -66,6 +70,14 @@ public class TestController {
         for (UserInfo userInfo : userList) {
             System.out.println(userInfo.getUsername());
         }
+        return "success";
+    }
+
+    @ApiOperation("for循环事务测试")
+    @PostMapping(value = {"/forTest"})
+    @ResponseBody
+    public Object forTest(HttpServletRequest request) {
+        testForService.forTest(request);
         return "success";
     }
 }

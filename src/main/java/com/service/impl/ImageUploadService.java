@@ -86,6 +86,10 @@ public class ImageUploadService {
         return new String(chs);
     }
 
+    @Autowired
+    private ImagerUpdateService imagerUpdateService;
+
+    @Transactional(rollbackFor = Exception.class)
     public void imgsDown() {
         Example example = new Example(ImgPath.class);
         example.createCriteria()
@@ -95,7 +99,7 @@ public class ImageUploadService {
         for (ImgPath imgPath : list) {
             i++;
             try {
-                update(imgPath);
+                imagerUpdateService.update(imgPath);
                 System.out.println("第"+i+"张");
             } catch (Exception e) {
                 //出现异常就跳过此条
@@ -111,23 +115,6 @@ public class ImageUploadService {
     }
 
 
-    @Transactional(propagation= Propagation.REQUIRES_NEW)
-    public void update(ImgPath imgPath) {
-        if (imgPath != null) {
-            ImgTitle imgTitle = imgTitleMapper.selectByPrimaryKey(imgPath.getImgId());
-            if (imgTitle != null) {
-                //写入本地
-                String result = ImgUtil.uploadQianURL(imgTitle.getTitle(), imgPath.getImgPath());
-                if (StringUtils.isEmpty(result)) {
-                    System.out.println("下载失败");
-                } else {
-                    //更新状态
-                    imgPath.setIsDown(1);
-                    imgPathMapper.updateByPrimaryKeySelective(imgPath);
-                    System.out.println(imgPath.getImgPath() + "下载成功");
-                }
-            }
-        }
-    }
+
 
 }
