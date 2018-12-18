@@ -49,9 +49,6 @@ public class ThunderServiceImpl implements PageProcessor {
 
     @Override
     public void process(Page page) {
-
-        List<String> scriptList = page.getHtml().xpath("*/script").all();
-
         String column = page.getHtml().xpath("*/li[@class='active']/a/text()").toString();
 
         List<String> fullList = page.getHtml().xpath("*/div[@class='play_nav hidden-xs']/a/text()").all();
@@ -66,9 +63,6 @@ public class ThunderServiceImpl implements PageProcessor {
         if (StringUtils.isEmpty(name)) {
             page.setSkip(true);
         } else {
-            for (String s : scriptList) {
-                String downurls = SpiderUtils.subString(s, "var downurls = \"", "#");
-                if (!downurls.equals("not")) {
                     if (resourceThunderMapper == null) {
                         resourceThunderMapper = (ResourceThunderMapper) getApplicationContext().getBean(ResourceThunderMapper.class);
                     }
@@ -107,8 +101,6 @@ public class ThunderServiceImpl implements PageProcessor {
                         resourceThunderNotMapper.insertSelective(not);
                         page.setSkip(true);
                     }
-                }
-            }
         }
         //子目录/更多
         List<String> urlList3 = page.getHtml().xpath("*//a[@class='text-muted']/@href").all();
