@@ -71,24 +71,36 @@ public class ThunderServiceImpl implements PageProcessor {
                 String thunderUrl =   page.getHtml().xpath("*//a[@class='btn btn-sm btn-primary']/@href").toString();
                 page.putField("thunderUrl============>>>",thunderUrl);
 
-                if (resourceThunderNotMapper == null) {
-                    resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
+                if (thunderUrl != null){
+                    if (resourceThunderNotMapper == null) {
+                        resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
+                    }
+                    //判重
+                    Example example = new Example(ResourceThunder.class);
+                    example.createCriteria().andEqualTo("thunder", thunderUrl);
+                    int count = resourceThunderMapper.selectCountByExample(example);
+                    if (count <= 0) {
+                        ResourceThunder resourceThunder = new ResourceThunder();
+                        resourceThunder.setIndexColumn(column);
+                        resourceThunder.setThunder(thunderUrl);
+                        resourceThunder.setTitle(name);
+                        resourceThunder.setType(type);
+                        resourceThunderMapper.insertSelective(resourceThunder);
+                        System.out.println("新增成功");
+                    } else {
+                        System.out.println("新增重复");
+                    }
+                }else{
+                    if (resourceThunderNotMapper == null) {
+                        resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
+                    }
+                    ResourceThunderNot not = new ResourceThunderNot();
+                    not.setIsDown("0");
+                    not.setThunder(page.getUrl().toString());
+                    resourceThunderNotMapper.insertSelective(not);
+                    page.setSkip(true);
                 }
-                //判重
-                Example example = new Example(ResourceThunder.class);
-                example.createCriteria().andEqualTo("thunder", thunderUrl);
-                int count = resourceThunderMapper.selectCountByExample(example);
-                if (count <= 0) {
-                    ResourceThunder resourceThunder = new ResourceThunder();
-                    resourceThunder.setIndexColumn(column);
-                    resourceThunder.setThunder(thunderUrl);
-                    resourceThunder.setTitle(name);
-                    resourceThunder.setType(type);
-                    resourceThunderMapper.insertSelective(resourceThunder);
-                    System.out.println("新增成功");
-                } else {
-                    System.out.println("新增重复");
-                }
+
             } catch (Exception e) {
                 //当前页面为
                 //保存到爬取失败列表
