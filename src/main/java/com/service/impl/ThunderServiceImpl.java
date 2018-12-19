@@ -10,7 +10,6 @@ import com.pojo.ResourceThunderNot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ClassUtils;
 import tk.mybatis.mapper.entity.Example;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -32,6 +31,15 @@ public class ThunderServiceImpl implements PageProcessor {
     @Autowired
     private ResourceThunderNotMapper resourceThunderNotMapper;
 
+    private static int i = 0;
+
+    public static int getI() {
+        return i;
+    }
+
+    public static void setI(int i) {
+        ThunderServiceImpl.i = i;
+    }
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(1000);
 
@@ -56,10 +64,13 @@ public class ThunderServiceImpl implements PageProcessor {
             }
             //保存zz
             try {
-                String thunderUrl =   page.getHtml().xpath("*//a[@class='btn btn-sm btn-primary']/@href").toString();
-                page.putField("thunderUrl============>>>",thunderUrl);
+                i = i+1;
+                System.out.println("-----------第"+i+"条----------");
 
-                if (thunderUrl != null){
+                String thunderUrl = page.getHtml().xpath("*//a[@class='btn btn-sm btn-primary']/@href").toString();
+                page.putField("thunderUrl============>>>", thunderUrl);
+
+                if (thunderUrl != null) {
                     if (resourceThunderNotMapper == null) {
                         resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
                     }
@@ -78,7 +89,7 @@ public class ThunderServiceImpl implements PageProcessor {
                     } else {
                         System.out.println("新增重复");
                     }
-                }else{
+                } else {
                     if (resourceThunderNotMapper == null) {
                         resourceThunderNotMapper = (ResourceThunderNotMapper) getApplicationContext().getBean(ResourceThunderNotMapper.class);
                     }
@@ -128,24 +139,27 @@ public class ThunderServiceImpl implements PageProcessor {
 
         //phantomjs
         String path = "";
-        if (true == SpiderUtils.isOSLinux()){
+        if (true == SpiderUtils.isOSLinux()) {
             path = "/home/phantomjs/phantomjs/bin/phantomjs";
-        }else{
+        } else {
             path = "F:/phantomjs/phantomjs-2.1.1-windows/bin/phantomjs.exe";
         }
-        System.out.println("path====="+path);
+        System.out.println("path=====" + path);
         SeleniumDownloader seleniumDownloader = new SeleniumDownloader(path);
         seleniumDownloader.setThread(10);
         seleniumDownloader.setSleepTime(2000);
 
         Spider.create(new ThunderServiceImpl()).thread(5)
                 .setDownloader(seleniumDownloader)
-                /*.addUrl("https://www.886pi.com/html/2/")*/
-                .addUrl("https://www.552en.com/html/1/")
-                /*.addUrl("https://www.552en.com/html/8/")
-                .addUrl("https://www.552en.com/html/5/")
-                .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/4/")*/
+                /*https://www.556nu.com/html/17/
+                 https://www.556nu.com/html/18/
+                  https://www.556nu.com/html/19/
+                   https://www.556nu.com/html/20/
+                    https://www.556nu.com/html/21/
+                     https://www.556nu.com/html/22/
+                      https://www.556nu.com/html/23/*/
+
+                /*.addUrl("https://www.886sa.com/html/4/")*/
                 .runAsync();
     }
 
@@ -155,9 +169,9 @@ public class ThunderServiceImpl implements PageProcessor {
 
     @Override
     public Site getSite() {
-        /*if (null == site) {
-            site = Site.me().setDomain("886pi.com").setSleepTime(0);
-        }*/
+        if (null == site) {
+            site = Site.me().setDomain("886sa.com").setSleepTime(0);
+        }
         return site;
     }
 

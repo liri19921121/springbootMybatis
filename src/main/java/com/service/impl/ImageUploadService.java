@@ -1,23 +1,16 @@
 package com.service.impl;
 
 import com.alibaba.druid.util.Base64;
-import com.alibaba.druid.util.StringUtils;
 import com.common.utils.ImgUtil;
 import com.mapper.ImgPathMapper;
 import com.mapper.ImgTitleMapper;
 import com.pojo.ImgPath;
-import com.pojo.ImgTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionSynchronizationUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
