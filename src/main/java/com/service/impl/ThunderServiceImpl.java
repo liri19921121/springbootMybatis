@@ -5,21 +5,12 @@ import com.common.BaseService.SpringContextUtils;
 import com.common.utils.SpiderUtils;
 import com.mapper.ResourceThunderMapper;
 import com.mapper.ResourceThunderNotMapper;
-import com.pojo.AsianhmResource;
 import com.pojo.ResourceThunder;
 import com.pojo.ResourceThunderNot;
-import com.service.MovieResourcesService;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import spider.Test2;
+import org.springframework.util.ClassUtils;
 import tk.mybatis.mapper.entity.Example;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -29,9 +20,6 @@ import us.codecraft.webmagic.downloader.selenium.SeleniumDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
-import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
-import us.codecraft.webmagic.scheduler.QueueScheduler;
-import us.codecraft.webmagic.selector.Html;
 
 import java.util.List;
 
@@ -139,21 +127,25 @@ public class ThunderServiceImpl implements PageProcessor {
                 new Proxy("324.424.32.24", 4242)));
 
         //phantomjs
-        SeleniumDownloader seleniumDownloader = new SeleniumDownloader("F:/phantomjs/phantomjs-2.1.1-windows/bin/phantomjs.exe");
+        String path = "";
+        if (true == SpiderUtils.isOSLinux()){
+            path = "/home/phantomjs/phantomjs/bin/phantomjs";
+        }else{
+            path = "F:/phantomjs/phantomjs-2.1.1-windows/bin/phantomjs.exe";
+        }
+        System.out.println("path====="+path);
+        SeleniumDownloader seleniumDownloader = new SeleniumDownloader(path);
         seleniumDownloader.setThread(10);
         seleniumDownloader.setSleepTime(2000);
 
         Spider.create(new ThunderServiceImpl()).thread(5)
                 .setDownloader(seleniumDownloader)
-                .addUrl("https://www.886pi.com/html/2/")
+                /*.addUrl("https://www.886pi.com/html/2/")*/
                 .addUrl("https://www.552en.com/html/1/")
-                .addUrl("https://www.552en.com/html/8/")
-                /*.addUrl("https://www.552en.com/html/5/")
+                /*.addUrl("https://www.552en.com/html/8/")
+                .addUrl("https://www.552en.com/html/5/")
                 .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/4/")
-                .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/3/")
-                .addUrl("https://www.552en.com/html/3/")*/
+                .addUrl("https://www.552en.com/html/4/")*/
                 .runAsync();
     }
 

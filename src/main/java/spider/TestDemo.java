@@ -1,9 +1,6 @@
 package spider;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -11,7 +8,6 @@ import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
-import us.codecraft.webmagic.selector.Html;
 
 import java.util.List;
 
@@ -23,15 +19,22 @@ public class TestDemo implements PageProcessor {
         String list =   page.getHtml().xpath("*/html/html()").toString();
         page.putField("html",list);
 
-        List<String> titleList =   page.getHtml().xpath("*//a[@target='_blank']/text()").all();
-        page.putField("titleList",titleList);
+        List<String> links = page.getHtml().links().regex("http://my\\.oschina\\.net/flashsword/blog/\\d+").all();
+        page.addTargetRequests(links);
+        page.putField("title", page.getHtml().xpath("//div[@class='BlogEntity']/div[@class='BlogTitle']/h1").toString());
+        page.putField("content", page.getHtml().$("div.content").toString());
+        page.putField("tags",page.getHtml().xpath("//div[@class='BlogTags']/a/text()").all());
 
-        if (titleList.isEmpty()) {
+        if (links.isEmpty()) {
             System.out.println("s==============跳过");
             page.setSkip(true);
         }else {
-                System.out.println("s=============="+titleList.toString());
+                System.out.println("s=============="+links.toString());
         }
+
+
+        //dosomething，保存到数据库什么的
+
 
         // 部分三：从页面发现后续的url地址来抓取
         List<String> pageList = page.getHtml().xpath("/a/@href").all();
@@ -53,7 +56,7 @@ public class TestDemo implements PageProcessor {
 
         Spider.create(new Test2())
                 //从"https://www.csdn.net/"开始抓
-                .addUrl("https://www.csdn.net/")
+                .addUrl("http://my.oschina.net/flashsword/blog")
                 //配置代理
                /* .setDownloader(httpClientDownloader)*/
                 //开启5个线程抓取
