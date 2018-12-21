@@ -1,9 +1,9 @@
 package spider;
 
+import spider.phantomjsUtil.SeleniumDownloader;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.downloader.selenium.SeleniumDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.List;

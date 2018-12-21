@@ -40,7 +40,7 @@ public class TestController {
     @ResponseBody
     public String Message(HttpServletRequest request) {
        /* Message message = new Message();
-        message.setMessage("ceshi");
+        message.setMessage("phantomjsUtil");
         messageService.add(message);*/
         return "success";
     }
