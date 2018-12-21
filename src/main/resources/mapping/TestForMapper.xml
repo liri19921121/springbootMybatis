@@ -10,4 +10,14 @@
     id, title, is_down
   </sql>
 
+  <select id="testLockForUpdate" resultMap="BaseResultMap" parameterType="Map" >
+    select <include refid="Base_Column_List" />
+    from test_for where title = #{title} for update
+  </select>
+
+  <select id="testLockForUpdate2" resultMap="BaseResultMap" parameterType="Map" >
+    select <include refid="Base_Column_List" />
+    from test_for where title = #{title} for update
+  </select>
+
 </mapper>

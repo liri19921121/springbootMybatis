@@ -14,25 +14,25 @@ import tk.mybatis.mapper.entity.Example;
 public class MovieResourcesServiceImpl implements MovieResourcesService {
 
     @Autowired
-    private AsianhmResourceMapper asianhmResourceMapper;
+    private ResourceAsianhmMapper asianhmResourceMapper;
 
     @Autowired
-    private AsianwmResourceMapper asianwmResourceMapper;
+    private ResourceAsianwmMapper asianwmResourceMapper;
 
     @Autowired
-    private CartoonResourceMapper cartoonResourceMapper;
+    private ResourceCartoonMapper cartoonResourceMapper;
 
     @Autowired
-    private DomesticResourceMapper domesticResourceMapper;
+    private ResourceDomesticMapper domesticResourceMapper;
 
     @Autowired
-    private StarResourceMapper starResourceMapper;
+    private ResourceStarMapper starResourceMapper;
 
     @Autowired
-    private OtherResourceMapper otherResourceMapper;
+    private ResourceOtherMapper otherResourceMapper;
 
     @Autowired
-    private EuropeResourceMapper europeResourceMapper;
+    private ResourceEuropeMapper europeResourceMapper;
 
     @Override
     public void insert(String name,String url,String column,String fullColumn,String type) {
@@ -44,11 +44,11 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
 
         switch(column){
             case MovieResourceType.ASIANHM:
-                Example example = new Example(AsianhmResource.class);
+                Example example = new Example(ResourceAsianhm.class);
                 example.createCriteria().andEqualTo("url",url);
                 int count = asianhmResourceMapper.selectCountByExample(example);
                 if (count <= 0){
-                    AsianhmResource asianhmResource = new AsianhmResource();
+                    ResourceAsianhm asianhmResource = new ResourceAsianhm();
                     asianhmResource.setName(name);
                     asianhmResource.setUrl(url);
                     asianhmResource.setFullColumn(fullColumn);
@@ -60,11 +60,11 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                 }
                 break;
             case MovieResourceType.ASIANWM:
-                Example example2 = new Example(AsianwmResource.class);
+                Example example2 = new Example(ResourceAsianwm.class);
                 example2.createCriteria().andEqualTo("url",url);
                 int count2 = asianwmResourceMapper.selectCountByExample(example2);
                 if (count2 <= 0){
-                    AsianwmResource asianwmResource = new AsianwmResource();
+                    ResourceAsianwm asianwmResource = new ResourceAsianwm();
                     asianwmResource.setName(name);
                     asianwmResource.setUrl(url);
                     asianwmResource.setFullColumn(fullColumn);
@@ -76,11 +76,11 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                 }
                 break;
             case MovieResourceType.CARTOON:
-                Example example3 = new Example(CartoonResource.class);
+                Example example3 = new Example(ResourceCartoon.class);
                 example3.createCriteria().andEqualTo("url",url);
                 int count3 = cartoonResourceMapper.selectCountByExample(example3);
                 if (count3 <= 0){
-                    CartoonResource cartoonResource = new CartoonResource();
+                    ResourceCartoon cartoonResource = new ResourceCartoon();
                     cartoonResource.setName(name);
                     cartoonResource.setUrl(url);
                     cartoonResource.setFullColumn(fullColumn);
@@ -92,11 +92,11 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                 }
                 break;
             case MovieResourceType.DOMESTIC:
-                Example example4 = new Example(DomesticResource.class);
+                Example example4 = new Example(ResourceDomestic.class);
                 example4.createCriteria().andEqualTo("url",url);
                 int count4 = domesticResourceMapper.selectCountByExample(example4);
                 if (count4 <= 0){
-                    DomesticResource domesticResource = new DomesticResource();
+                    ResourceDomestic domesticResource = new ResourceDomestic();
                     domesticResource.setName(name);
                     domesticResource.setUrl(url);
                     domesticResource.setFullColumn(fullColumn);
@@ -108,11 +108,11 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                 }
                 break;
             case MovieResourceType.EUROPE:
-                Example example5 = new Example(EuropeResource.class);
+                Example example5 = new Example(ResourceEurope.class);
                 example5.createCriteria().andEqualTo("url",url);
                 int count5 = europeResourceMapper.selectCountByExample(example5);
                 if (count5 <= 0){
-                    EuropeResource europeResource = new EuropeResource();
+                    ResourceEurope europeResource = new ResourceEurope();
                     europeResource.setName(name);
                     europeResource.setUrl(url);
                     europeResource.setFullColumn(fullColumn);
@@ -124,11 +124,11 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                 }
                 break;
             case MovieResourceType.STAR:
-                Example example6 = new Example(StarResource.class);
+                Example example6 = new Example(ResourceStar.class);
                 example6.createCriteria().andEqualTo("url",url);
                 int count6 = starResourceMapper.selectCountByExample(example6);
                 if (count6 <= 0){
-                    StarResource starResource = new StarResource();
+                    ResourceStar starResource = new ResourceStar();
                     starResource.setName(name);
                     starResource.setUrl(url);
                     starResource.setFullColumn(fullColumn);
@@ -140,11 +140,11 @@ public class MovieResourcesServiceImpl implements MovieResourcesService {
                 }
                 break;
              default:
-                 Example example7 = new Example(OtherResource.class);
+                 Example example7 = new Example(ResourceOther.class);
                  example7.createCriteria().andEqualTo("url",url);
                  int count7 = otherResourceMapper.selectCountByExample(example7);
                  if (count7 <= 0){
-                     OtherResource otherResource = new OtherResource();
+                     ResourceOther otherResource = new ResourceOther();
                      otherResource.setName(name);
                      otherResource.setUrl(url);
                      otherResource.setFullColumn(fullColumn);

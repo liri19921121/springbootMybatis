@@ -1,7 +1,6 @@
 import com.alibaba.druid.util.StringUtils;
-import com.common.constant.MovieResourceType;
 import com.common.utils.ImgUtil;
-import com.mapper.DomesticResourceMapper;
+import com.mapper.ResourceDomesticMapper;
 import com.mapper.ResourceMovieTitleMapper;
 import com.mapper.ResourceThunderMapper;
 import com.pojo.ResourceMovieTitle;
@@ -18,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class ApplicationTests {
 	private ResourceMovieTitleMapper resourceMovieTitleMapper;
 
 	@Autowired
-	private DomesticResourceMapper domesticResourceMapper;
+	private ResourceDomesticMapper domesticResourceMapper;
 
 	@Test
 	public void testSelenium() {

@@ -3,7 +3,7 @@ package com.pojo;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-public class AsianhmResource {
+public class ResourceDomestic {
     @Id
     @GeneratedValue(generator = "JDBC")
     private Long id;
@@ -13,11 +13,8 @@ public class AsianhmResource {
     private String fullColumn;
 
     private String url;
-
     private String type;
-
     private String titleUrl;
-
     private String thunder;
 
     public String getThunder() {

@@ -11,19 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TitleUpdateService {
     @Autowired
-    private AsianhmResourceMapper asianhmResourceMapper;
+    private ResourceAsianhmMapper asianhmResourceMapper;
     @Autowired
-    private AsianwmResourceMapper asianwmResourceMapper;
+    private ResourceAsianwmMapper asianwmResourceMapper;
     @Autowired
-    private CartoonResourceMapper cartoonResourceMapper;
+    private ResourceCartoonMapper cartoonResourceMapper;
     @Autowired
-    private DomesticResourceMapper domesticResourceMapper;
+    private ResourceDomesticMapper domesticResourceMapper;
     @Autowired
-    private StarResourceMapper starResourceMapper;
+    private ResourceStarMapper starResourceMapper;
     @Autowired
-    private OtherResourceMapper otherResourceMapper;
+    private ResourceOtherMapper otherResourceMapper;
     @Autowired
-    private EuropeResourceMapper europeResourceMapper;
+    private ResourceEuropeMapper europeResourceMapper;
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW,rollbackFor = Exception.class)
@@ -31,54 +31,54 @@ public class TitleUpdateService {
         try {
             String type = t.getIndexColumn();
             if (MovieResourceType.DOMESTIC.equals(type)){
-                DomesticResource dr = new DomesticResource();
+                ResourceDomestic dr = new ResourceDomestic();
                 dr.setName(t.getTitle()+ MovieResourceType.ZXBF);
-                DomesticResource d = domesticResourceMapper.selectOne(dr);
+                ResourceDomestic d = domesticResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setTitleUrl(t.getTitleUrl());
                     d.setName(t.getTitle());
                     domesticResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.ASIANHM.equals(type)){
-                AsianhmResource dr = new AsianhmResource();
+                ResourceAsianhm dr = new ResourceAsianhm();
                 dr.setName(t.getTitle()+ MovieResourceType.ZXBF);
-                AsianhmResource d = asianhmResourceMapper.selectOne(dr);
+                ResourceAsianhm d = asianhmResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setTitleUrl(t.getTitleUrl());
                     d.setName(t.getTitle());
                     asianhmResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.ASIANWM.equals(type)){
-                AsianwmResource dr = new AsianwmResource();
+                ResourceAsianwm dr = new ResourceAsianwm();
                 dr.setName(t.getTitle()+ MovieResourceType.ZXBF);
-                AsianwmResource d = asianwmResourceMapper.selectOne(dr);
+                ResourceAsianwm d = asianwmResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setTitleUrl(t.getTitleUrl());
                     d.setName(t.getTitle());
                     asianwmResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.CARTOON.equals(type)){
-                CartoonResource dr = new CartoonResource();
+                ResourceCartoon dr = new ResourceCartoon();
                 dr.setName(t.getTitle()+ MovieResourceType.ZXBF);
-                CartoonResource d = cartoonResourceMapper.selectOne(dr);
+                ResourceCartoon d = cartoonResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setTitleUrl(t.getTitleUrl());
                     d.setName(t.getTitle());
                     cartoonResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.EUROPE.equals(type)){
-                EuropeResource dr = new EuropeResource();
+                ResourceEurope dr = new ResourceEurope();
                 dr.setName(t.getTitle()+ MovieResourceType.ZXBF);
-                EuropeResource d = europeResourceMapper.selectOne(dr);
+                ResourceEurope d = europeResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setTitleUrl(t.getTitleUrl());
                     d.setName(t.getTitle());
                     europeResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.STAR.equals(type)){
-                StarResource dr = new StarResource();
+                ResourceStar dr = new ResourceStar();
                 dr.setName(t.getTitle()+ MovieResourceType.ZXBF);
-                StarResource d = starResourceMapper.selectOne(dr);
+                ResourceStar d = starResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setTitleUrl(t.getTitleUrl());
                     d.setName(t.getTitle());
@@ -94,49 +94,49 @@ public class TitleUpdateService {
         try {
             String type = t.getIndexColumn();
             if (MovieResourceType.DOMESTIC.equals(type)){
-                DomesticResource dr = new DomesticResource();
+                ResourceDomestic dr = new ResourceDomestic();
                 dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
-                DomesticResource d = domesticResourceMapper.selectOne(dr);
+                ResourceDomestic d = domesticResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setThunder(t.getThunder());
                     domesticResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.ASIANHM.equals(type)){
-                AsianhmResource dr = new AsianhmResource();
+                ResourceAsianhm dr = new ResourceAsianhm();
                 dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
-                AsianhmResource d = asianhmResourceMapper.selectOne(dr);
+                ResourceAsianhm d = asianhmResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setThunder(t.getThunder());
                     asianhmResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.ASIANWM.equals(type)){
-                AsianwmResource dr = new AsianwmResource();
+                ResourceAsianwm dr = new ResourceAsianwm();
                 dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
-                AsianwmResource d = asianwmResourceMapper.selectOne(dr);
+                ResourceAsianwm d = asianwmResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setThunder(t.getThunder());
                     asianwmResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.CARTOON.equals(type)){
-                CartoonResource dr = new CartoonResource();
+                ResourceCartoon dr = new ResourceCartoon();
                 dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
-                CartoonResource d = cartoonResourceMapper.selectOne(dr);
+                ResourceCartoon d = cartoonResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setThunder(t.getThunder());
                     cartoonResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.EUROPE.equals(type)){
-                EuropeResource dr = new EuropeResource();
+                ResourceEurope dr = new ResourceEurope();
                 dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
-                EuropeResource d = europeResourceMapper.selectOne(dr);
+                ResourceEurope d = europeResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setThunder(t.getThunder());
                     europeResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }else if (MovieResourceType.STAR.equals(type)){
-                StarResource dr = new StarResource();
+                ResourceStar dr = new ResourceStar();
                 dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
-                StarResource d = starResourceMapper.selectOne(dr);
+                ResourceStar d = starResourceMapper.selectOne(dr);
                 if (d !=null){
                     d.setThunder(t.getThunder());
                     starResourceMapper.updateByPrimaryKeySelective(d);

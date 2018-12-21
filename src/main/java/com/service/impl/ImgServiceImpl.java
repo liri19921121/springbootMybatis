@@ -2,10 +2,8 @@ package com.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.common.BaseService.SpringContextUtils;
-import com.common.utils.ImgUtil;
 import com.mapper.ImgPathMapper;
 import com.mapper.ImgTitleMapper;
-import com.pojo.AsianhmResource;
 import com.pojo.ImgPath;
 import com.pojo.ImgTitle;
 import com.service.MovieResourcesService;

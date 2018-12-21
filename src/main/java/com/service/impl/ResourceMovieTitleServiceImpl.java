@@ -28,25 +28,25 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
     private ResourceMovieTitleMapper resourceMovieTitleMapper;
 
     @Autowired
-    private AsianhmResourceMapper asianhmResourceMapper;
+    private ResourceAsianhmMapper asianhmResourceMapper;
 
     @Autowired
-    private AsianwmResourceMapper asianwmResourceMapper;
+    private ResourceAsianwmMapper asianwmResourceMapper;
 
     @Autowired
-    private CartoonResourceMapper cartoonResourceMapper;
+    private ResourceCartoonMapper cartoonResourceMapper;
 
     @Autowired
-    private DomesticResourceMapper domesticResourceMapper;
+    private ResourceDomesticMapper domesticResourceMapper;
 
     @Autowired
-    private StarResourceMapper starResourceMapper;
+    private ResourceStarMapper starResourceMapper;
 
     @Autowired
-    private OtherResourceMapper otherResourceMapper;
+    private ResourceOtherMapper otherResourceMapper;
 
     @Autowired
-    private EuropeResourceMapper europeResourceMapper;
+    private ResourceEuropeMapper europeResourceMapper;
 
     // 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
     private Site site = Site.me().setRetryTimes(3).setSleepTime(1000);
@@ -74,25 +74,25 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                 }
 
                 if (asianhmResourceMapper == null) {
-                    asianhmResourceMapper = (AsianhmResourceMapper) getApplicationContext().getBean(AsianhmResourceMapper.class);
+                    asianhmResourceMapper = (ResourceAsianhmMapper) getApplicationContext().getBean(ResourceAsianhmMapper.class);
                 }
                 if (asianwmResourceMapper == null) {
-                    asianwmResourceMapper = (AsianwmResourceMapper) getApplicationContext().getBean(AsianwmResourceMapper.class);
+                    asianwmResourceMapper = (ResourceAsianwmMapper) getApplicationContext().getBean(ResourceAsianwmMapper.class);
                 }
                 if (cartoonResourceMapper == null) {
-                    cartoonResourceMapper = (CartoonResourceMapper) getApplicationContext().getBean(CartoonResourceMapper.class);
+                    cartoonResourceMapper = (ResourceCartoonMapper) getApplicationContext().getBean(ResourceCartoonMapper.class);
                 }
                 if (domesticResourceMapper == null) {
-                    domesticResourceMapper = (DomesticResourceMapper) getApplicationContext().getBean(DomesticResourceMapper.class);
+                    domesticResourceMapper = (ResourceDomesticMapper) getApplicationContext().getBean(ResourceDomesticMapper.class);
                 }
                 if (starResourceMapper == null) {
-                    starResourceMapper = (StarResourceMapper) getApplicationContext().getBean(StarResourceMapper.class);
+                    starResourceMapper = (ResourceStarMapper) getApplicationContext().getBean(ResourceStarMapper.class);
                 }
                 if (otherResourceMapper == null) {
-                    otherResourceMapper = (OtherResourceMapper) getApplicationContext().getBean(OtherResourceMapper.class);
+                    otherResourceMapper = (ResourceOtherMapper) getApplicationContext().getBean(ResourceOtherMapper.class);
                 }
                 if (europeResourceMapper == null) {
-                    europeResourceMapper = (EuropeResourceMapper) getApplicationContext().getBean(EuropeResourceMapper.class);
+                    europeResourceMapper = (ResourceEuropeMapper) getApplicationContext().getBean(ResourceEuropeMapper.class);
                 }
 
 
@@ -121,11 +121,11 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                     //更新电影表
                     switch(bigTitle) {
                         case MovieResourceType.ASIANHM:
-                            Example example = new Example(AsianhmResource.class);
+                            Example example = new Example(ResourceAsianhm.class);
                             example.createCriteria().andLike("name",title);
-                            List<AsianhmResource> AsianhmResourceList = asianhmResourceMapper.selectByExample(example);
+                            List<ResourceAsianhm> AsianhmResourceList = asianhmResourceMapper.selectByExample(example);
                             if (!AsianhmResourceList.isEmpty()) {
-                                AsianhmResource asianhmResource = AsianhmResourceList.get(0);
+                                ResourceAsianhm asianhmResource = AsianhmResourceList.get(0);
                                 asianhmResource.setTitleUrl(url);
                                 asianhmResourceMapper.updateByPrimaryKey(asianhmResource);
                                 System.out.println("====添加成功====");
@@ -134,11 +134,11 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                             }
                             break;
                         case MovieResourceType.ASIANWM:
-                            Example example8 = new Example(AsianwmResource.class);
+                            Example example8 = new Example(ResourceAsianwm.class);
                             example8.createCriteria().andLike("name",title);
-                            List<AsianwmResource> AsianwmResourceList = asianwmResourceMapper.selectByExample(example8);
+                            List<ResourceAsianwm> AsianwmResourceList = asianwmResourceMapper.selectByExample(example8);
                             if (!AsianwmResourceList.isEmpty()) {
-                                AsianwmResource asianwmResource = AsianwmResourceList.get(0);
+                                ResourceAsianwm asianwmResource = AsianwmResourceList.get(0);
                                 asianwmResource.setTitleUrl(url);
                                 asianwmResourceMapper.updateByPrimaryKey(asianwmResource);
                                 System.out.println("====添加成功====");
@@ -147,11 +147,11 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                             }
                             break;
                         case MovieResourceType.CARTOON:
-                            Example example3 = new Example(CartoonResource.class);
+                            Example example3 = new Example(ResourceCartoon.class);
                             example3.createCriteria().andLike("name",title);
-                            List<CartoonResource> CartoonResourceList = cartoonResourceMapper.selectByExample(example3);
+                            List<ResourceCartoon> CartoonResourceList = cartoonResourceMapper.selectByExample(example3);
                             if (!CartoonResourceList.isEmpty()) {
-                                CartoonResource cartoonResource = CartoonResourceList.get(0);
+                                ResourceCartoon cartoonResource = CartoonResourceList.get(0);
                                 cartoonResource.setTitleUrl(url);
                                 cartoonResourceMapper.updateByPrimaryKey(cartoonResource);
                                 System.out.println("====添加成功====");
@@ -160,11 +160,11 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                             }
                             break;
                         case MovieResourceType.DOMESTIC:
-                            Example example4 = new Example(DomesticResource.class);
+                            Example example4 = new Example(ResourceDomestic.class);
                             example4.createCriteria().andLike("name",title);
-                            List<DomesticResource> DomesticResourceList = domesticResourceMapper.selectByExample(example4);
+                            List<ResourceDomestic> DomesticResourceList = domesticResourceMapper.selectByExample(example4);
                             if (!DomesticResourceList.isEmpty()) {
-                                DomesticResource domesticResource = DomesticResourceList.get(0);
+                                ResourceDomestic domesticResource = DomesticResourceList.get(0);
                                 domesticResource.setTitleUrl(url);
                                 domesticResourceMapper.updateByPrimaryKey(domesticResource);
                                 System.out.println("====添加成功====");
@@ -173,11 +173,11 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                             }
                             break;
                         case MovieResourceType.EUROPE:
-                            Example example5 = new Example(EuropeResource.class);
+                            Example example5 = new Example(ResourceEurope.class);
                             example5.createCriteria().andLike("name",title);
-                            List<EuropeResource> EuropeResourceList = europeResourceMapper.selectByExample(example5);
+                            List<ResourceEurope> EuropeResourceList = europeResourceMapper.selectByExample(example5);
                             if (!EuropeResourceList.isEmpty()) {
-                                EuropeResource europeResource = EuropeResourceList.get(0);
+                                ResourceEurope europeResource = EuropeResourceList.get(0);
                                 europeResource.setTitleUrl(url);
                                 europeResourceMapper.updateByPrimaryKey(europeResource);
                                 System.out.println("====添加成功====");
@@ -186,11 +186,11 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                             }
                             break;
                         case MovieResourceType.STAR:
-                            Example example6 = new Example(StarResource.class);
+                            Example example6 = new Example(ResourceStar.class);
                             example6.createCriteria().andLike("name",title);
-                            List<StarResource> StarResourceList = starResourceMapper.selectByExample(example6);
+                            List<ResourceStar> StarResourceList = starResourceMapper.selectByExample(example6);
                             if (!StarResourceList.isEmpty()) {
-                                StarResource starResource = StarResourceList.get(0);
+                                ResourceStar starResource = StarResourceList.get(0);
                                 starResource.setTitleUrl(url);
                                 starResourceMapper.updateByPrimaryKey(starResource);
                                 System.out.println("====添加成功====");
@@ -199,11 +199,11 @@ public class ResourceMovieTitleServiceImpl implements PageProcessor {
                             }
                             break;
                         default:
-                            Example example7 = new Example(OtherResource.class);
+                            Example example7 = new Example(ResourceOther.class);
                             example7.createCriteria().andLike("name",title);
-                            List<OtherResource> OtherResourceList = otherResourceMapper.selectByExample(example7);
+                            List<ResourceOther> OtherResourceList = otherResourceMapper.selectByExample(example7);
                             if (!OtherResourceList.isEmpty()) {
-                                OtherResource otherResource = OtherResourceList.get(0);
+                                ResourceOther otherResource = OtherResourceList.get(0);
                                 otherResource.setTitleUrl(url);
                                 otherResourceMapper.updateByPrimaryKey(otherResource);
                                 System.out.println("====添加成功====");

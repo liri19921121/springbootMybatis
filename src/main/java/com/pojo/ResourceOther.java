@@ -3,7 +3,7 @@ package com.pojo;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-public class StarResource {
+public class ResourceOther {
     @Id
     @GeneratedValue(generator = "JDBC")
     private Long id;
