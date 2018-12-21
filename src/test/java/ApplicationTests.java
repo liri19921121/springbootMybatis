@@ -1,12 +1,11 @@
 import com.alibaba.druid.util.StringUtils;
 import com.common.constant.MovieResourceType;
 import com.common.utils.ImgUtil;
-import com.github.pagehelper.PageHelper;
 import com.mapper.DomesticResourceMapper;
 import com.mapper.ResourceMovieTitleMapper;
-import com.pojo.DomesticResource;
+import com.mapper.ResourceThunderMapper;
 import com.pojo.ResourceMovieTitle;
-import com.service.impl.TestService;
+import com.pojo.ResourceThunder;
 import com.service.impl.TitleUpdateService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,14 +61,26 @@ public class ApplicationTests {
 	@Test
 	@Transactional
 	public void insertTitle() {
-			Example example = new Example(ResourceMovieTitle.class);
-			example.createCriteria().andEqualTo("indexColumn", MovieResourceType.STAR);
-			List<ResourceMovieTitle> list = resourceMovieTitleMapper.selectByExample(example);
+			List<ResourceMovieTitle> list = resourceMovieTitleMapper.selectAll();
 			int i= 0;
 			int j = 0;
 			for (ResourceMovieTitle t : list){
-				titleUpdateService.updateResourceMovieTitle(i,j,t,MovieResourceType.STAR);
+				titleUpdateService.updateResourceMovieTitle(t);
 			}
+	}
+
+	@Autowired
+	private ResourceThunderMapper resourceThunderMapper;
+
+	@Test
+	@Transactional
+	public void insertThunder() {
+		List<ResourceThunder> list = resourceThunderMapper.selectAll();
+		int i= 0;
+		for (ResourceThunder t : list){
+			i=i+1;System.out.println("已经处理"+i+"条");
+			titleUpdateService.updateResourceThunder(t);
+		}
 	}
 
 }

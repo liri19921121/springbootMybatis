@@ -151,16 +151,16 @@ public class ThunderServiceImpl implements PageProcessor {
 
         Spider.create(new ThunderServiceImpl()).thread(5)
                 .setDownloader(seleniumDownloader)
-                /*https://www.556nu.com/html/17/
-                 https://www.556nu.com/html/18/
-                  https://www.556nu.com/html/19/
-                   https://www.556nu.com/html/20/
-                    https://www.556nu.com/html/21/
-                     https://www.556nu.com/html/22/
-                      https://www.556nu.com/html/23/*/
-
-                /*.addUrl("https://www.886sa.com/html/4/")*/
-                .runAsync();
+                /*https://www.885cu.com/html/4/*/
+                .addUrl("https://www.885cu.com/html/1/")
+                .addUrl("https://www.885cu.com/html/2/")
+                .addUrl("https://www.885cu.com/html/3/")
+                .addUrl("https://www.885cu.com/html/4/")
+                .addUrl("https://www.885cu.com/html/5/")
+                .addUrl("https://www.885cu.com/html/6/")
+                .addUrl("https://www.885cu.com/html/7/")
+                .addUrl("https://www.885cu.com/html/8/")
+                .run();
     }
 
     public ApplicationContext getApplicationContext() {
@@ -169,9 +169,9 @@ public class ThunderServiceImpl implements PageProcessor {
 
     @Override
     public Site getSite() {
-        if (null == site) {
+        /*if (null == site) {
             site = Site.me().setDomain("886sa.com").setSleepTime(0);
-        }
+        }*/
         return site;
     }
 

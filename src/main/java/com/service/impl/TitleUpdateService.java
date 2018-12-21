@@ -27,8 +27,9 @@ public class TitleUpdateService {
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW,rollbackFor = Exception.class)
-    public void updateResourceMovieTitle(int i, int j, ResourceMovieTitle t,String type){
+    public void updateResourceMovieTitle( ResourceMovieTitle t){
         try {
+            String type = t.getIndexColumn();
             if (MovieResourceType.DOMESTIC.equals(type)){
                 DomesticResource dr = new DomesticResource();
                 dr.setName(t.getTitle()+ MovieResourceType.ZXBF);
@@ -84,10 +85,65 @@ public class TitleUpdateService {
                     starResourceMapper.updateByPrimaryKeySelective(d);
                 }
             }
-
-            i=i+1;System.out.println("已经处理"+i+"条");
         }catch (Exception e){
-            j=j+1;System.out.println("失败---------------------"+j+"条");
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW,rollbackFor = Exception.class)
+    public void updateResourceThunder(ResourceThunder t){
+        try {
+            String type = t.getIndexColumn();
+            if (MovieResourceType.DOMESTIC.equals(type)){
+                DomesticResource dr = new DomesticResource();
+                dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
+                DomesticResource d = domesticResourceMapper.selectOne(dr);
+                if (d !=null){
+                    d.setThunder(t.getThunder());
+                    domesticResourceMapper.updateByPrimaryKeySelective(d);
+                }
+            }else if (MovieResourceType.ASIANHM.equals(type)){
+                AsianhmResource dr = new AsianhmResource();
+                dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
+                AsianhmResource d = asianhmResourceMapper.selectOne(dr);
+                if (d !=null){
+                    d.setThunder(t.getThunder());
+                    asianhmResourceMapper.updateByPrimaryKeySelective(d);
+                }
+            }else if (MovieResourceType.ASIANWM.equals(type)){
+                AsianwmResource dr = new AsianwmResource();
+                dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
+                AsianwmResource d = asianwmResourceMapper.selectOne(dr);
+                if (d !=null){
+                    d.setThunder(t.getThunder());
+                    asianwmResourceMapper.updateByPrimaryKeySelective(d);
+                }
+            }else if (MovieResourceType.CARTOON.equals(type)){
+                CartoonResource dr = new CartoonResource();
+                dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
+                CartoonResource d = cartoonResourceMapper.selectOne(dr);
+                if (d !=null){
+                    d.setThunder(t.getThunder());
+                    cartoonResourceMapper.updateByPrimaryKeySelective(d);
+                }
+            }else if (MovieResourceType.EUROPE.equals(type)){
+                EuropeResource dr = new EuropeResource();
+                dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
+                EuropeResource d = europeResourceMapper.selectOne(dr);
+                if (d !=null){
+                    d.setThunder(t.getThunder());
+                    europeResourceMapper.updateByPrimaryKeySelective(d);
+                }
+            }else if (MovieResourceType.STAR.equals(type)){
+                StarResource dr = new StarResource();
+                dr.setName(t.getTitle().substring(0,t.getTitle().length()-4));
+                StarResource d = starResourceMapper.selectOne(dr);
+                if (d !=null){
+                    d.setThunder(t.getThunder());
+                    starResourceMapper.updateByPrimaryKeySelective(d);
+                }
+            }
+        }catch (Exception e){
+           System.out.println("失败---------------------");
         }
     }
 

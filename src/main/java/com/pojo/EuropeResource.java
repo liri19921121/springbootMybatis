@@ -15,6 +15,15 @@ public class EuropeResource {
     private String url;
     private String type;
     private String titleUrl;
+    private String thunder;
+
+    public String getThunder() {
+        return thunder;
+    }
+
+    public void setThunder(String thunder) {
+        this.thunder = thunder;
+    }
 
     public String getTitleUrl() {
         return titleUrl;
