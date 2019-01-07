@@ -110,6 +110,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		page.setUrl(new PlainText(request.getUrl()));
 		page.setRequest(request);
 		webDriverPool.returnToPool(webDriver);
+		//webDriverPool.closeAll();
 		return page;
 	}
 

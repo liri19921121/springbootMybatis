@@ -151,15 +151,14 @@ public class ThunderServiceImpl implements PageProcessor {
 
         Spider.create(new ThunderServiceImpl()).thread(5)
                 .setDownloader(seleniumDownloader)
-                /*https://www.885cu.com/html/4/*/
-                .addUrl("https://www.885cu.com/html/1/")
-                .addUrl("https://www.885cu.com/html/2/")
-                .addUrl("https://www.885cu.com/html/3/")
-                .addUrl("https://www.885cu.com/html/4/")
-                .addUrl("https://www.885cu.com/html/5/")
-                .addUrl("https://www.885cu.com/html/6/")
-                .addUrl("https://www.885cu.com/html/7/")
-                .addUrl("https://www.885cu.com/html/8/")
+                .addUrl("https://www.883he.com/html/1/")
+                .addUrl("https://www.883he.com/html/2/")
+                .addUrl("https://www.883he.com/html/3/")
+                .addUrl("https://www.883he.com/html/4/")
+                .addUrl("https://www.883he.com/html/5/")
+                .addUrl("https://www.883he.com/html/6/")
+                .addUrl("https://www.883he.com/html/7/")
+                .addUrl("https://www.883he.com/html/8/")
                 .run();
     }
 
