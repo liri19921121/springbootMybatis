@@ -72,3 +72,20 @@ mapper:
   identity: MYSQL
 logging:
   config: classpath:logback-spring.xml
+
+quartz:
+  scheduler:
+    instance-name: MyselfScheduler
+    instance-id: NON_CLUSTERED # 使用集群：AUTO 不使用集群：NON_CLUSTERED
+    skip-update-check: true
+    job-factory:
+      class: org.quartz.simpl.SimpleJobFactory
+  job-store:
+    class: org.quartz.impl.jdbcjobstore.JobStoreTX
+    driver-delegate-class: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+    datasource: quartzDataSource
+    table-prefix: QRTZ_
+    is-clustered: true
+  thread-pool:
+    class: org.quartz.simpl.SimpleThreadPool
+    thread-count: 5

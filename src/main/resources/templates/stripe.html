@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src="/renxi/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#alipay-submit').on('click', function () {
+                alert(111);
+                const amountInput = $('#payment-amount');
+                var totalAmount = parseFloat(amountInput.val()) * 100;
+                var stripe = Stripe($('#stripe').val());
+                var alipayRedirect = "https://www.baidu.com";
+                var stripeSource = stripe.createSource({
+                    type: 'alipay',
+                    amount: totalAmount,
+                    currency: 'usd',
+                    redirect: {
+                        return_url: alipayRedirect
+                    },
+
+                }).then(function (result) {
+                    if (result && result.source && result.source.redirect && result.source.redirect['url']) {
+                        alert(result.source.id);
+                    } else {
+                        $("#msg").html(result.error.message);
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+
+</head>
+<body>
+        <p class="card-heading">请选择充值金额：（美元）</p>
+        <div class="form-group form-group-label">
+            <input type="hidden" id="stripe" value="pk_test_3RMor3Kvps41h26QR3j0gZ7V">
+            <input class="form-control" id="payment-amount" type="number" min="0.00" max="10000.00" value="5" step="1">
+        </div>
+        <div class="card-action-btn pull-left">
+            <button class="btn btn-flat waves-attach" id="alipay-submit"><span class="icon">check</span>&nbsp;支付宝充值</button>
+        </div>
+</body>
+</html>

@@ -38,4 +38,9 @@ public class IndexController {
         return messageService.addMessage(message,name);
     }
 
+    @GetMapping(value = {"/stripe"})
+    public String stripe(HttpServletRequest request) throws Exception{
+        return "stripe";
+    }
+
 }
